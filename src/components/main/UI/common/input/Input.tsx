@@ -1,19 +1,25 @@
-import React from 'react';
-import './Input.module.css';
+import React, {DetailedHTMLProps, InputHTMLAttributes} from 'react';
+import styles from './Input.module.css';
 
-type PropsType = {
-    value: string
-    placeholder: string
-    type: string
-    inputClass: any
-}
+export type InputPropsType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
+    & { onEnter?: () => void, error?: string, inputStyle?: any };
 
-const Input = (props: PropsType) => {
+const CustomInput = (props: InputPropsType) => {
+    const {onEnter, error, ...restProps} = props;
+
+    const onClickEnter = (e: any) => {
+        if (e.key === "Enter") {
+            // @ts-ignore
+            onEnter()
+        }
+    }
+
     return (
-        <input className={props.inputClass} type={props.type}
-               placeholder={props.placeholder} value={props.value}/>
-
+        <>
+            <input className={styles.inputStyle} {...restProps} type="text" onKeyPress={onClickEnter}/>
+            {error ? <span>{error}</span> : ''}
+        </>
     );
 }
 
-export default Input;
+export default CustomInput;

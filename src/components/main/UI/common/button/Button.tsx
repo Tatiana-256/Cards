@@ -1,12 +1,10 @@
-import React from 'react';
-import './Button.module.css';
+import React, {ButtonHTMLAttributes, DetailedHTMLProps} from 'react';
+import styles from './Button.module.css';
 
-type PropsType = {
-    title: string
-    buttonClass: any
-}
+type   ButtonNyaPropsType = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> &
+    { buttonClass: any }
 
-const Button = (props: PropsType) => {
+const Button = (props: ButtonNyaPropsType) => {
     return (
         <button className={props.buttonClass}>{props.title}</button>
     );
