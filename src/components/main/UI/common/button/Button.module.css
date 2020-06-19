@@ -1,0 +1,19 @@
+.regularButton, .deleteButton {
+    border: 1px solid transparent;
+    box-shadow: none;
+    cursor: pointer;
+    user-select: none;
+    padding: 0 13px;
+    height: 32px;
+    border-radius: 3px;
+    font-size: 13px;
+}
+
+.deleteButton {
+    background-color: #be4d49
+
+}
+
+.regularButton {
+    background-color: #65a3be
+}
