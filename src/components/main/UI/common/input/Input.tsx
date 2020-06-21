@@ -1,22 +1,21 @@
-import React, {DetailedHTMLProps, InputHTMLAttributes} from 'react';
+import React, {DetailedHTMLProps, InputHTMLAttributes, ChangeEvent} from 'react';
 import styles from './Input.module.css';
 
 export type InputPropsType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
-    & { onEnter?: () => void, error?: string, inputStyle?: any };
+    & { onEnter: () => void, error?: string };
 
 const CustomInput = (props: InputPropsType) => {
     const {onEnter, error, ...restProps} = props;
 
-    const onClickEnter = (e: any) => {
-        if (e.key === "Enter") {
-            // @ts-ignore
+    const onClickEnter = (event: React.KeyboardEvent<HTMLDivElement>) => {
+        if (event.key === "Enter") {
             onEnter()
         }
     }
 
     return (
         <>
-            <input className={styles.inputStyle} {...restProps} type="text" onKeyPress={onClickEnter}/>
+            <input className={styles.inputClass} {...restProps} type="text" onKeyPress={onClickEnter}/>
             {error ? <span>{error}</span> : ''}
         </>
     );

@@ -1,12 +1,14 @@
 import React, {ButtonHTMLAttributes, DetailedHTMLProps} from 'react';
 import styles from './Button.module.css';
 
-type   ButtonNyaPropsType = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> &
-    { buttonClass: any }
+type   ButtonPropsType = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
+    &
+    { buttonClass: string }
 
-const Button = (props: ButtonNyaPropsType) => {
+const Button = (props: ButtonPropsType) => {
+    const {...restProps} = props;
     return (
-        <button className={props.buttonClass}>{props.title}</button>
+        <button className={styles[props.buttonClass]} {...restProps}/>
     );
 }
 
