@@ -3,10 +3,10 @@ import {Route} from 'react-router-dom';
 
 import './App.css';
 import Header from './components/main/UI/header/Header';
-import Login from './components/main/UI/routers/Login/Login';
-import Registration from './components/main/UI/routers/Registration/Registration';
-import RefreshPassword from "./components/main/UI/routers/RefreshPassword/RefreshPassword";
-import Profile from './components/main/UI/routers/Profile/Profile';
+import Login from './components/main/UI/pages/Login/Login';
+import Registration from './components/main/UI/pages/Registration/Registration';
+import RefreshPassword from "./components/main/UI/pages/RefreshPassword/RefreshPassword";
+import Profile from './components/main/UI/pages/Profile/Profile';
 
 
 const App = () => {
