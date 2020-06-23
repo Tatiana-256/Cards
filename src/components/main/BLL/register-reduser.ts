@@ -1,3 +1,5 @@
+import { ActionsType } from "./actions"
+
 export type initialStateType = typeof initialState
 
 const initialState = {

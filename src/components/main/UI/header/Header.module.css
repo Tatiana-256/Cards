@@ -1,0 +1,12 @@
+.header {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 50px;
+    background-color: #4d4d4d;
+}
+
+.rout {
+    text-decoration: none;
+    color: white;
+}

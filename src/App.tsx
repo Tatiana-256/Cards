@@ -16,7 +16,7 @@ const App = () => {
             <Route exact path="/login" component={Login}/>
             <Route exact path="/registration" component={Registration}/>
             <Route exact path="/refreshPassword" component={RefreshPassword}/>
-            <Route exact path="/profile" component={Profile}/>
+            <Route exact path="/" component={Profile}/>
         </div>
     );
     // логин, регистрация, восстановление пароля, профайл

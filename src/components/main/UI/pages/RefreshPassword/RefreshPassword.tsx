@@ -6,7 +6,7 @@ type PropsType = {}
 
 const RefreshPassword = (props: PropsType) => {
     return <div>
-        RefreshPassword
+        Refresh Password
     </div>
 }
 

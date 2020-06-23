@@ -6,11 +6,11 @@ type PropsType = {}
 
 
 const Header = (props: PropsType) => {
-    return <div>
-        <NavLink to="/login"> Login </NavLink>
-        <NavLink to="/registration"> Registration </NavLink>
-        <NavLink to="/refreshPassword"> RefreshPassword </NavLink>
-        <NavLink to="/profile"> Profile </NavLink>
+    return <div className={styles.header}>
+        <NavLink to="/" className={styles.rout}> Profile </NavLink>
+        <NavLink to="/login" className={styles.rout}> Login </NavLink>
+        <NavLink to="/registration" className={styles.rout}> Registration </NavLink>
+        <NavLink to="/refreshPassword" className={styles.rout}> Remind password </NavLink>
     </div>
 }
 
