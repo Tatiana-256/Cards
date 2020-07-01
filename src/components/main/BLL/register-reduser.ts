@@ -35,6 +35,8 @@ export const registerReducer = (state = initialState, action: RegisterActionsTyp
 }
 
 
+// __________________ Actions __________________
+
 type RegisterActionsType = InferActionsTypes<typeof actions>
 
 const actions = {
@@ -42,3 +44,6 @@ const actions = {
     registerIsError: () => ({type: "registerReducer/REGISTER_IS_ERROR"} as const),
     registerIsLoading: () => ({type: "registerReducer/REGISTER_IS_LOADING"} as const)
 }
+
+
+//__________________ thunk-creators __________________

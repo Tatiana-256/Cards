@@ -5,8 +5,8 @@ import './App.css';
 import Header from './components/main/UI/header/Header';
 import RefreshPassword from "./components/main/UI/pages/RefreshPassword/RefreshPassword";
 import Profile from './components/main/UI/pages/Profile/Profile';
-import LoginPage from './components/festers/auth/login/LogInPage';
-import Registration from './components/festers/auth/register/Registration';
+import LoginPage from './components/main/UI/pages/Login/LogInPage';
+import Registration from './components/main/UI/pages/Registration/Registration';
 
 
 const App = () => {
