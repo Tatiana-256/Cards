@@ -1,18 +1,18 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import CustomInput from "../../common/input/Input";
 import Button from "../../common/button/Button";
 import styles from "./Registration.module.css"
-import {Redirect} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 
 
 type PropsType = {
     email: string
-    enterEmail: (text: string) => void
+    setEmail: (text: string) => void
     password: string
-    enterPassword: (text: string) => void
+    setPassword: (text: string) => void
     addUser: () => void
     passwordRepeat: string
-    enterPasswordRepeat: (text: string) => void
+    setPasswordRepeat: (text: string) => void
     isPasswordSame: boolean
     isLoading: boolean
     isError: boolean
@@ -21,10 +21,23 @@ type PropsType = {
 
 const Registration = (props: PropsType) => {
 
+    const onRegisterClick = () => {
+        props.addUser()
+    }
+
+    const onInputMailChange = (e: ChangeEvent<HTMLInputElement>) => {
+        props.setEmail(e.currentTarget.value)
+    }
+
+    const onInputPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+        props.setPassword(e.currentTarget.value)
+    }
+
+
     const registration = [
-        {name: "Email", placeholder: 'Enter your Email...', type: 'email'},
-        {name: "Password", placeholder: 'Enter your password...', type: 'password'},
-        {name: "Confirm Password", placeholder: 'Enter your password confirmation...'},
+        {name: "Email", placeholder: 'Enter your Email...', type: 'email', onChange: onInputMailChange},
+        {name: "Password", placeholder: 'Enter your password...', type: 'password', onChange: onInputPasswordChange},
+        {name: "Confirm Password", placeholder: 'Enter your password confirmation...', onChange: onInputPasswordChange},
     ]
 
     return <div className={styles.container}>
@@ -32,12 +45,12 @@ const Registration = (props: PropsType) => {
         {
             registration.map(data => <form className={styles.inputArea}>
                 <div>{data.name}</div>
-                <CustomInput placeholder={data.placeholder} type={data.type}/>
+                <CustomInput placeholder={data.placeholder} type={data.type} onChange={data.onChange}/>
             </form>)
         }
         <div className={styles.buttons}>
-            <Button buttonClass={'regularButton'}>Sign up</Button>
-            <Redirect to={"/"}><Button buttonClass={'deleteButton'}>Cancel</Button></Redirect>
+            <Button buttonClass={'regularButton'} onClick={onRegisterClick}>Sign up</Button>
+            <NavLink to={"/"}><Button buttonClass={'deleteButton'}>Cancel</Button></NavLink>
         </div>
     </div>
 }

@@ -7,9 +7,9 @@ import {AppStateType} from "../../../BLL/redux-store";
 
 
 const RegistrationContainer = () => {
-    const [email, enterEmail] = useState<string>('');
-    const [password, enterPassword] = useState<string>('');
-    const [passwordRepeat, enterPasswordRepeat] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [passwordRepeat, setPasswordRepeat] = useState<string>('');
     const [isPasswordSame, setSamePassword] = useState<boolean>(false);
 
     useEffect(() => {
@@ -22,9 +22,9 @@ const RegistrationContainer = () => {
 
     const addUser = () => {
         dispatch(registration(email, password));
-        enterEmail('');
-        enterPassword('');
-        enterPasswordRepeat('');
+        setEmail('');
+        setPassword('');
+        setPasswordRepeat('');
     };
 
     const {isLoading, isSuccess, isError} = useSelector((store: AppStateType) => store.register);
@@ -32,8 +32,8 @@ const RegistrationContainer = () => {
     if (isSuccess) {
         return <Redirect to={'/login'}/>
     }
-    return (<Registration email={email} enterEmail={enterEmail} password={password} enterPassword={enterPassword}
-                          passwordRepeat={passwordRepeat} enterPasswordRepeat={enterPasswordRepeat}
+    return (<Registration email={email} setEmail={setEmail} password={password} setPassword={setPassword}
+                          passwordRepeat={passwordRepeat} setPasswordRepeat={setPasswordRepeat}
                           isPasswordSame={isPasswordSame}
                           addUser={addUser} isLoading={isLoading} isError={isError}/>
     )
