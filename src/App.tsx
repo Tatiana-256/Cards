@@ -3,17 +3,17 @@ import {Route} from 'react-router-dom';
 
 import './App.css';
 import Header from './components/main/UI/header/Header';
-import Login from './components/main/UI/pages/Login/Login';
-import Registration from './components/main/UI/pages/Registration/Registration';
 import RefreshPassword from "./components/main/UI/pages/RefreshPassword/RefreshPassword";
 import Profile from './components/main/UI/pages/Profile/Profile';
+import LoginPage from './components/festers/auth/login/LogInPage';
+import Registration from './components/festers/auth/register/Registration';
 
 
 const App = () => {
     return (
         <div className="App">
             <Header/>
-            <Route exact path="/login" component={Login}/>
+            <Route exact path="/login" component={LoginPage}/>
             <Route exact path="/registration" component={Registration}/>
             <Route exact path="/refreshPassword" component={RefreshPassword}/>
             <Route exact path="/" component={Profile}/>

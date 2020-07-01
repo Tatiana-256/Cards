@@ -10,24 +10,22 @@ type PropsType = {}
 const Registration = (props: PropsType) => {
 
     const registration = [
-        {name: "First name", placeholder: 'Enter your first name...'},
-        {name: "Last name", placeholder: 'Enter your last name...'},
-        {name: "Email", placeholder: 'Enter your Email...'},
-        {name: "Password", placeholder: 'Enter your password...'},
+        {name: "Email", placeholder: 'Enter your Email...', type: 'email'},
+        {name: "Password", placeholder: 'Enter your password...', type: 'password'},
         {name: "Confirm Password", placeholder: 'Enter your password confirmation...'},
     ]
 
     return <div className={styles.container}>
         <h3>Registration</h3>
         {
-            registration.map(data => <div className={styles.inputArea}>
+            registration.map(data => <form className={styles.inputArea}>
                 <div>{data.name}</div>
-                <CustomInput placeholder={data.placeholder}/>
-            </div>)
+                <CustomInput placeholder={data.placeholder} type={data.type}/>
+            </form>)
         }
         <div className={styles.buttons}>
-        <Button buttonClass={'regularButton'}>Sign up</Button>
-        <Button buttonClass={'deleteButton'}>Cancel</Button>
+            <Button buttonClass={'regularButton'}>Sign up</Button>
+            <Button buttonClass={'deleteButton'}>Cancel</Button>
         </div>
     </div>
 }
