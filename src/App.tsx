@@ -21,7 +21,7 @@ const App = () => {
             <Route exact path="/" component={Profile}/>
         </div>
     );
-    // логин, регистрация, восстановление пароля, профайл
+
 }
 
 export default App;

@@ -1,4 +1,5 @@
-import {InferActionsTypes} from "./redux-store";
+import {AppStateType, baseThunkType, InferActionsTypes} from "./redux-store";
+import {authAPI} from "../DAL/api";
 
 export type initialStateType = typeof initialState
 
@@ -47,3 +48,17 @@ const actions = {
 
 
 //__________________ thunk-creators __________________
+
+type thunkType = baseThunkType<RegisterActionsType>
+
+export const registration = (email: string, password: string): thunkType => async (dispatch, getState: () => AppStateType) => {
+    dispatch(actions.registerIsLoading(true))
+    try {
+        const res = await authAPI.registration(email, password)
+        if (res.data.success) dispatch(actions.registerIsSuccess(true))
+    } catch (e) {
+        dispatch(actions.registerIsError())
+        console.error(e)
+    }
+}
+
