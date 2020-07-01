@@ -11,6 +11,7 @@ const Header = (props: PropsType) => {
         <NavLink to="/login" className={styles.rout}> Login </NavLink>
         <NavLink to="/registration" className={styles.rout}> Registration </NavLink>
         <NavLink to="/refreshPassword" className={styles.rout}> Remind password </NavLink>
+        <NavLink to="/newPassword" className={styles.rout}> New password </NavLink>
     </div>
 }
 
