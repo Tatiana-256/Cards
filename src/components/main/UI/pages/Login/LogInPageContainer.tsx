@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
-import CustomInput from "../../common/input/Input";
-import Button from "../../common/button/Button";
-import styles from './LogInPage.module.css'
+import {Redirect} from "react-router-dom";
+import {useDispatch, useSelector} from 'react-redux';
+
 import LoginPage from "./LogInPage";
-import { useDispatch } from 'react-redux';
+import {logIn} from "../../../BLL/login-reduser";
+import {AppStateType} from "../../../BLL/redux-store";
 
 
 const LoginPageContainer = () => {
@@ -14,8 +15,28 @@ const LoginPageContainer = () => {
 
     const dispatch = useDispatch()
 
+    const setUser = () => {
+        dispatch(logIn(email, password, rememberMe))
+        setEmail('')
+        setPassword('')
+        setRememberMe(false)
+    }
+    const {isLoading, isSuccess, isError} = useSelector((store: AppStateType) => store.login)
 
-    return <LoginPage/>
+    if (isSuccess) {
+        return <Redirect to={"/"}/>
+    } else {
+        return (<LoginPage email={email}
+                           setEmail={setEmail}
+                           password={password}
+                           setPassword={setPassword}
+                           isError={isError}
+                           rememberMe={rememberMe}
+                           setRememberMe={setRememberMe}
+                           setUser={setUser}
+                           isLoading={isLoading}/>)
+
+    }
 }
 
 export default LoginPageContainer

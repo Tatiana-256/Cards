@@ -14,11 +14,13 @@
     margin: 10px;
 }
 
-.checkbox{
+.checkbox {
     display: flex;
     margin-bottom: 10px;
 }
 
-.forgotPass{
+.forgotPass {
     margin-top: 10px;
+    color: black;
+    cursor: pointer;
 }

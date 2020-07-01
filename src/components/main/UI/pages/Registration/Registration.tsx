@@ -2,9 +2,21 @@ import React from 'react';
 import CustomInput from "../../common/input/Input";
 import Button from "../../common/button/Button";
 import styles from "./Registration.module.css"
+import {Redirect} from "react-router-dom";
 
 
-type PropsType = {}
+type PropsType = {
+    email: string
+    enterEmail: (text: string) => void
+    password: string
+    enterPassword: (text: string) => void
+    addUser: () => void
+    passwordRepeat: string
+    enterPasswordRepeat: (text: string) => void
+    isPasswordSame: boolean
+    isLoading: boolean
+    isError: boolean
+}
 
 
 const Registration = (props: PropsType) => {
@@ -25,7 +37,7 @@ const Registration = (props: PropsType) => {
         }
         <div className={styles.buttons}>
             <Button buttonClass={'regularButton'}>Sign up</Button>
-            <Button buttonClass={'deleteButton'}>Cancel</Button>
+            <Redirect to={"/"}><Button buttonClass={'deleteButton'}>Cancel</Button></Redirect>
         </div>
     </div>
 }
