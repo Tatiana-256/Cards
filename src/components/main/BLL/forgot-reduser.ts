@@ -1,7 +1,5 @@
-import {actions, ActionsType} from "./actions"
-import {Dispatch} from "redux";
 import {authAPI} from "../DAL/api";
-
+import {baseThunkType, InferActionsTypes} from "./redux-store";
 
 const initialState = {
     email: " ",
@@ -13,26 +11,23 @@ const initialState = {
 
 export type InitialStateType = typeof initialState
 
-export const forgotReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
+export const forgotReducer = (state: InitialStateType = initialState, action: ForgotActionType): InitialStateType => {
     switch (action.type) {
-        case "SET_EMAIL":
+        case "cards/forgot/SET_EMAIL":
             return {
                 ...state,
-                email: action.email
+                email: action.email,
+                unError: true,
             }
-        case "TOGGLE_IS_FETCHING":
+        case "cards/forgot/TOGGLE_IS_FETCHING":
             return {
                 ...state, isFetching: action.isFetching
             }
-        case "ERROR":
+        case "cards/forgot/ERROR":
             return {
                 ...state,
                 error: action.error,
                 messageError: action.messageError
-            }
-        case "UNERROR":
-            return {
-                ...state, unError: action.unError
             }
         default:
             return state
@@ -40,18 +35,25 @@ export const forgotReducer = (state: InitialStateType = initialState, action: Ac
 
 }
 
-export const forgotPasswordSuccess = (email: string) => async (dispatch: Dispatch) => {
+type ForgotActionType = InferActionsTypes<typeof actions>
+
+const actions = {
+    forgotPassword: (email: string) => ({type: "cards/forgot/SET_EMAIL", email} as const),
+    toggleIsFetching: (isFetching: boolean) => ({type: "cards/forgot/TOGGLE_IS_FETCHING", isFetching} as const),
+    changeError: (error: boolean, messageError: string) => ({type: "cards/forgot/ERROR", error, messageError} as const)
+}
+
+type thunkType = baseThunkType<ForgotActionType>
+
+export const forgotPasswordSuccess = (email: string): thunkType => async (dispatch) => {
     dispatch(actions.toggleIsFetching(true))
     try {
         const res = await authAPI.forgotPass(email)
-        dispatch(actions.forgotPassword(res.data.info.accepted[0]))
-        dispatch(actions.changeUnError(true))
+        if (res.data.success) dispatch(actions.forgotPassword(res.data.info.accepted[0]))
     } catch (e) {
-        console.log(e.response.data.error)
         dispatch(actions.changeError(true, e.response.data.error))
     }
     dispatch(actions.toggleIsFetching(false))
-
 }
 
 

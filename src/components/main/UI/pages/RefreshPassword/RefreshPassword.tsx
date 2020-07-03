@@ -13,7 +13,7 @@ type PropsType = {
 }
 
 
-const ForgotPassword = ({isFetching, error, unError, messageError, onClickForgotPassword}: PropsType) => {
+const ForgotPassword: React.FC<PropsType> = ({isFetching, error, unError, messageError, onClickForgotPassword}) => {
 
     const [email, setEmail] = useState("")
 
@@ -26,7 +26,7 @@ const ForgotPassword = ({isFetching, error, unError, messageError, onClickForgot
     }
 
     return <div className={styles.forgot}>
-        Refresh Password
+        <h3>Refresh Password</h3>
         {isFetching ? <Preloader/> : null}
         {error
             ? <span className={styles.error}>{messageError}</span>
@@ -37,8 +37,7 @@ const ForgotPassword = ({isFetching, error, unError, messageError, onClickForgot
             : null
         }
         <form className={styles.fagotForm} onSubmit={handleSubmit} action="">
-
-            <CustomInput onChange={handleChange} value={email}/>
+            <CustomInput placeholder="Email" onChange={handleChange} value={email}/>
             <Button disabled={isFetching} buttonClass={"regularButton"}>Submit</Button>
         </form>
     </div>

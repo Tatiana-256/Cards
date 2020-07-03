@@ -27,22 +27,21 @@ export const authAPI = {
     forgotPass(email: string) {
         return instance.post<ApiType>("auth/forgot", {
             email: email,
-            html: "<a href='http://localhost:3000/cards#/refreshPassword'",
-            html2: ">http://localhost:3000/cards#/refreshPassword</a>"
+            html: "<a href='http://localhost:3000/#/newPassword'",
+            html2: "http://localhost:3000/?#/newPassword</a>"
         })
+
     },
-    newPass(newPass: string) {
-        return instance.post<ApiType>("POST /auth/set-new-password", {
-            resetPasswordToken: "0b2bdd80-32f2-11ea-aa6d-ebd61add4aaa",
+    newPass(newPass: string, id: string) {
+        return instance.post<ApiType>("auth/set-new-password", {
+            resetPasswordToken: id,
             password: newPass
         })
     }
 
 }
 
-
 //__________ Types ______________
-
 
 type LoginResponseType = {
     email: string
@@ -74,4 +73,8 @@ type RegisterResponseType = {
 type ApiType = {
     info: { accepted: string }
     password: string
+    success: boolean
+    config: {
+        data: string
+    }
 }
