@@ -1,5 +1,5 @@
 import {AppStateType, baseThunkType, InferActionsTypes} from "./redux-store";
-import {authAPI} from "../DAL/api";
+import {authAPI} from "../DAL/authAPI";
 
 
 export type initialStateType = typeof initialState

@@ -1,4 +1,4 @@
-import {authAPI} from "../DAL/api";
+import {authAPI} from "../DAL/authAPI";
 import {baseThunkType, InferActionsTypes} from "./redux-store";
 
 const initialState = {

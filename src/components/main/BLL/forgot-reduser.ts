@@ -1,5 +1,6 @@
-import {authAPI} from "../DAL/api";
+
 import {baseThunkType, InferActionsTypes} from "./redux-store";
+import { authAPI } from "../DAL/authAPI";
 
 const initialState = {
     email: " ",
