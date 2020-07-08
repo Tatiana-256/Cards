@@ -1,4 +1,6 @@
-import {InferActionsTypes} from "./redux-store";
+import {AppStateType, baseThunkType, InferActionsTypes} from "./redux-store";
+import {authAPI} from "../DAL/authAPI";
+import {cardsAPI} from "../DAL/cardsAPI";
 
 export  type CardsType = {
     cards: Array<CardType>,
@@ -42,8 +44,6 @@ let initialState: CardsType = {
             updated: "2020-05-09T15:40:40.339Z",
             __v: 0
         }
-
-
     ],
     cardsTotalCount: 0,
     maxGrade: '',
@@ -59,6 +59,18 @@ type InitialStateType = typeof initialState;
 
 export const cardsReducer = (state = initialState, action: CardsActionsTypes): InitialStateType => {
     switch (action.type) {
+        case 'cardsReducer/LOAD_DATA':
+            return {
+                ...state,
+                ...action.cards,
+                isLoading: false
+            }
+        case "cardsReducer/IS_LOADING":
+            return {
+                ...state,
+                isLoading: action.value
+            }
+
         default:
             return state;
     }
@@ -67,4 +79,25 @@ export const cardsReducer = (state = initialState, action: CardsActionsTypes): I
 
 type CardsActionsTypes = InferActionsTypes<typeof actions>
 
-const actions = {}
+const actions = {
+    loadData: (cards: CardsType) => ({type: 'cardsReducer/LOAD_DATA', cards} as const),
+    isLoading: (value: boolean) => ({type: 'cardsReducer/IS_LOADING', value} as const)
+
+}
+
+
+//__________________ thunk-creators __________________
+
+type thunkType = baseThunkType<CardsActionsTypes>
+
+export const loadCardsData = (token: string, deckId: string, page?: number): thunkType => async (dispatch, getState: () => AppStateType) => {
+    dispatch(actions.isLoading(true))
+
+    try {
+        debugger
+        const res = await cardsAPI.getCards(token, deckId, page)
+        dispatch(actions.loadData(res))
+    } catch (e) {
+        console.error(e)
+    }
+}

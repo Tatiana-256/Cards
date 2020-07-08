@@ -1,16 +1,24 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../../BLL/redux-store";
 import CustomInput from "../../common/input/Input";
 import Button from "../../common/button/Button";
 import styles from './Cards.module.css'
+import {loadCardsData} from "../../../BLL/cards-reduser";
 
 
-const Cards = () => {
+const Cards = (props: any) => {
 
 
     const dispatch = useDispatch();
-    const {isLoading, cards, cardsTotalCount, pageCount, page} = useSelector((store: AppStateType) => store.cards)
+    const {isLoading, cards, page, token,} = useSelector((store: AppStateType) => store.cards)
+    debugger
+    let deckId = props.match.params.deckId
+
+
+    useEffect(() => {
+        dispatch(loadCardsData(token, deckId, page))
+    }, []);
 
     return <div>
         {
@@ -41,7 +49,7 @@ const Cards = () => {
                     </div>
                     {
                         cards.map(card => {
-                            return <div className={styles.cards}>
+                            return <div className={styles.cards} key={card._id}>
                                 <div>{card.name}</div>
                                 <div>{card.rating}</div>
                                 <div className={styles.buttons}>
