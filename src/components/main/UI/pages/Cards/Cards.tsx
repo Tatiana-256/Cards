@@ -4,21 +4,23 @@ import {AppStateType} from "../../../BLL/redux-store";
 import CustomInput from "../../common/input/Input";
 import Button from "../../common/button/Button";
 import styles from './Cards.module.css'
-import {loadCardsData} from "../../../BLL/cards-reduser";
+import {addCardPack, changeCardPack, loadCardsData} from "../../../BLL/cards-reduser";
 
 
-const Cards = (props: any) => {
-
+const Cards = () => {
 
     const dispatch = useDispatch();
-    const {isLoading, cards, page, token,} = useSelector((store: AppStateType) => store.cards)
-    debugger
-    let deckId = props.match.params.deckId
-
+    const {isLoading, cards} = useSelector((store: AppStateType) => store.cards)
 
     useEffect(() => {
-        dispatch(loadCardsData(token, deckId, page))
+        dispatch(loadCardsData())
     }, []);
+
+    const addCardsButtonClick = () => {
+        debugger
+        dispatch(addCardPack())
+    }
+
 
     return <div>
         {
@@ -45,7 +47,7 @@ const Cards = (props: any) => {
                                 <button>-</button>
                             </div>
                         </div>
-                        <Button buttonClass={'regularButton'}>Add</Button>
+                        <Button onClick={addCardsButtonClick} buttonClass={'regularButton'}>Add</Button>
                     </div>
                     {
                         cards.map(card => {
@@ -54,9 +56,12 @@ const Cards = (props: any) => {
                                 <div>{card.rating}</div>
                                 <div className={styles.buttons}>
                                     <Button buttonClass={'regularButton'}>Add to basket</Button>
-                                    <Button buttonClass={'regularButton'}>Update</Button>
+                                    <Button buttonClass={'regularButton'}
+                                            onClick={() => {
+                                                debugger
+                                              return dispatch(changeCardPack(card._id))
+                                            }}>Update</Button>
                                     <Button buttonClass={'deleteButton'}>Delete</Button>
-
                                 </div>
                             </div>
                         })

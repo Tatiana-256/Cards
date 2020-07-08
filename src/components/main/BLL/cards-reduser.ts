@@ -1,8 +1,7 @@
 import {AppStateType, baseThunkType, InferActionsTypes} from "./redux-store";
-import {authAPI} from "../DAL/authAPI";
 import {cardsAPI} from "../DAL/cardsAPI";
 
-export  type CardsType = {
+export type CardsType = {
     cards: Array<CardType>,
     cardsTotalCount: number,
     maxGrade: string,
@@ -14,8 +13,7 @@ export  type CardsType = {
     isLoading: boolean
 }
 
-
-type CardType = {
+export type CardType = {
     _id: string
     user_id: string,
     name: string,
@@ -30,21 +28,7 @@ type CardType = {
 }
 
 let initialState: CardsType = {
-    cards: [
-        {
-            _id: "5eb6cef840b7bf1cf0d8122d",
-            user_id: "5eb543f6bea3ad21480f1ee7",
-            name: "no Name",
-            path: "/def", // папка
-            grade: 0,// средняя оценка карточек
-            shots: 0, // количество попыток
-            rating: 0, // лайки
-            type: "pack", // ещё будет "folder" (папка)
-            created: "2020-05-09T15:40:40.339Z",
-            updated: "2020-05-09T15:40:40.339Z",
-            __v: 0
-        }
-    ],
+    cards: [],
     cardsTotalCount: 0,
     maxGrade: '',
     minGrade: 0,
@@ -62,7 +46,7 @@ export const cardsReducer = (state = initialState, action: CardsActionsTypes): I
         case 'cardsReducer/LOAD_DATA':
             return {
                 ...state,
-                ...action.cards,
+                cards: action.cards,
                 isLoading: false
             }
         case "cardsReducer/IS_LOADING":
@@ -70,7 +54,17 @@ export const cardsReducer = (state = initialState, action: CardsActionsTypes): I
                 ...state,
                 isLoading: action.value
             }
-
+        case "cardsReducer/ADD_CARD_PACK":
+            debugger
+            return {
+                ...state,
+                cards: action.cardPack
+            }
+        case "cardsReducer/UPDATE_CARD_PACK":
+            return {
+                ...state,
+                cards: state.cards.map(cp => cp._id === action.idPack ? {...cp, ...action.newPack} : cp)
+            }
         default:
             return state;
     }
@@ -80,24 +74,54 @@ export const cardsReducer = (state = initialState, action: CardsActionsTypes): I
 type CardsActionsTypes = InferActionsTypes<typeof actions>
 
 const actions = {
-    loadData: (cards: CardsType) => ({type: 'cardsReducer/LOAD_DATA', cards} as const),
-    isLoading: (value: boolean) => ({type: 'cardsReducer/IS_LOADING', value} as const)
-
+    loadData: (cards: Array<CardType>) => ({type: 'cardsReducer/LOAD_DATA', cards} as const),
+    isLoading: (value: boolean) => ({type: 'cardsReducer/IS_LOADING', value} as const),
+    addCardPackSuccess: (cardPack: any) => ({type: 'cardsReducer/ADD_CARD_PACK', cardPack} as const),
+    changeCardPackSuccess: (idPack: string, newPack: any) => ({
+        type: 'cardsReducer/UPDATE_CARD_PACK',
+        idPack,
+        newPack
+    } as const),
 }
-
 
 //__________________ thunk-creators __________________
 
 type thunkType = baseThunkType<CardsActionsTypes>
 
-export const loadCardsData = (token: string, deckId: string, page?: number): thunkType => async (dispatch, getState: () => AppStateType) => {
+export const loadCardsData = (): thunkType => async (dispatch, getState: () => AppStateType) => {
     dispatch(actions.isLoading(true))
-
     try {
-        debugger
-        const res = await cardsAPI.getCards(token, deckId, page)
-        dispatch(actions.loadData(res))
+        const token = getState().login.token
+        console.log(token)
+        const res = await cardsAPI.getCards(token)
+        dispatch(actions.loadData(res.data.cardPacks))
     } catch (e) {
-        console.error(e)
+        console.error(e.response.data.error)
+    }
+}
+
+export const addCardPack = (): thunkType => async (dispatch, getState: () => AppStateType) => {
+    try {
+        const token = getState().login.token
+        debugger
+        const res = await cardsAPI.addCards(token)
+        debugger
+        dispatch(actions.addCardPackSuccess(res.data.cardPacks))
+        debugger
+    } catch (e) {
+        console.error(e.response.data.error)
+    }
+}
+
+export const changeCardPack = (idPack: string): thunkType => async (dispatch, getState: () => AppStateType) => {
+    try {
+        const token = getState().login.token
+        debugger
+        const res = await cardsAPI.updatePack(idPack, token)
+        debugger
+        dispatch(actions.changeCardPackSuccess(idPack, res.data))
+        debugger
+    } catch (e) {
+        console.error(e.response.data.error)
     }
 }
