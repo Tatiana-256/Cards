@@ -35,7 +35,7 @@ const LoginPage = (props: PropsType) => {
         props.setRememberMe(e.currentTarget.checked)
     }
     return (
-        <form className={styles.container}>
+        <form className={styles.container} onSubmit={onSubmit}>
             <h3>Log in</h3>
             <div className={styles.logIn}>
                 <CustomInput type="email" placeholder='Email' value={props.email} onChange={onInputMailChange}/>
@@ -46,7 +46,7 @@ const LoginPage = (props: PropsType) => {
                 <input type='checkbox' checked={props.rememberMe as boolean} onChange={onCheckboxChange}/>
                 <div>Remember me</div>
             </div>
-            <Button buttonClass="regularButton" onClick={onSubmit}>Log in</Button>
+            <Button buttonClass="regularButton">Log in</Button>
             <NavLink to={'/refreshPassword'} className={styles.forgotPass}>Forgot password?</NavLink>
             <NavLink to={'/registration'} className={styles.forgotPass}>I don`t have an account</NavLink>
         </form>)

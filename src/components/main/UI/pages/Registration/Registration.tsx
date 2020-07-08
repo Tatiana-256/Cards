@@ -42,16 +42,18 @@ const Registration = (props: PropsType) => {
 
     return <div className={styles.container}>
         <h3>Registration</h3>
-        {
-            registration.map(data => <form className={styles.inputArea}>
-                <div>{data.name}</div>
-                <CustomInput placeholder={data.placeholder} type={data.type} onChange={data.onChange}/>
-            </form>)
-        }
-        <div className={styles.buttons}>
-            <Button buttonClass={'regularButton'} onClick={onRegisterClick}>Sign up</Button>
-            <NavLink to={"/"}><Button buttonClass={'deleteButton'}>Cancel</Button></NavLink>
-        </div>
+        <form className={styles.inputArea} onSubmit={onRegisterClick}>
+            {
+                registration.map(data => <div>
+                    <div>{data.name}</div>
+                    <CustomInput placeholder={data.placeholder} type={data.type} onChange={data.onChange}/>
+                </div>)
+            }
+            <div className={styles.buttons}>
+                <Button buttonClass={'regularButton'}>Sign up</Button>
+                <NavLink to={"/"}><Button buttonClass={'deleteButton'}>Cancel</Button></NavLink>
+            </div>
+        </form>
     </div>
 }
 
