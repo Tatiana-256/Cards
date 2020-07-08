@@ -3,7 +3,7 @@ import styles from './Button.module.css';
 
 type   ButtonPropsType = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
     &
-    { buttonClass: string }
+    { buttonClass: "regularButton" | 'deleteButton'}
 
 const Button = (props: ButtonPropsType) => {
     const {...restProps} = props;

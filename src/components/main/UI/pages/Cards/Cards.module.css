@@ -1,0 +1,35 @@
+.container {
+    height: 100vh;
+}
+
+.searchTyping, .head, .cards {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.head {
+    height: 70px;
+    margin-top: 10px;
+    border: 1px solid #343434;
+}
+
+.cards {
+    border: 1px solid #acacac;
+    margin-top: 10px;
+    height: 140px;
+
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 120px;
+
+}
+
+.buttons .regularButton {
+    height: 20px;
+}

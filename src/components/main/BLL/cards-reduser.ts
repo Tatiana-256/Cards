@@ -1,6 +1,6 @@
 import {InferActionsTypes} from "./redux-store";
 
-type CardsType = {
+export  type CardsType = {
     cards: Array<CardType>,
     cardsTotalCount: number,
     maxGrade: string,
@@ -12,14 +12,15 @@ type CardsType = {
     isLoading: boolean
 }
 
+
 type CardType = {
     _id: string
-    answer: string
-    question: string
-    cardsPack_id: string
-    grade: number
-    rating: number
-    shots: number
+    user_id: string,
+    name: string,
+    path: string,
+    grade: number,
+    shots: number,
+    rating: number,
     type: string
     created: string
     updated: string
@@ -27,7 +28,23 @@ type CardType = {
 }
 
 let initialState: CardsType = {
-    cards: [],
+    cards: [
+        {
+            _id: "5eb6cef840b7bf1cf0d8122d",
+            user_id: "5eb543f6bea3ad21480f1ee7",
+            name: "no Name",
+            path: "/def", // папка
+            grade: 0,// средняя оценка карточек
+            shots: 0, // количество попыток
+            rating: 0, // лайки
+            type: "pack", // ещё будет "folder" (папка)
+            created: "2020-05-09T15:40:40.339Z",
+            updated: "2020-05-09T15:40:40.339Z",
+            __v: 0
+        }
+
+
+    ],
     cardsTotalCount: 0,
     maxGrade: '',
     minGrade: 0,
