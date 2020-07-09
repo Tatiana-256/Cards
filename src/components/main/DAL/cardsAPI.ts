@@ -5,14 +5,31 @@ export const instance = axios.create({
     baseURL: "https://cards-nya-back.herokuapp.com/1.0/",
 })
 
+type GetApiType = {
+    cardPacks: Array<CardType>
+    token: string
+}
+
+type AddApiType = {
+    newCardsPack: CardType
+    token: string
+}
+
+type UpdateApiType = {
+    updatedCardsPack: CardType
+    token: string
+}
+
+type DeleteApiType = {
+    token: string
+}
 
 export const cardsAPI = {
     getCards(token: string) {
-        return instance.get<ApiType>(`cards/pack?token=${token}`)
+        return instance.get<GetApiType>(`cards/pack?token=${token}`)
     },
     addCards(token: string) {
-        debugger
-        return instance.post<any>(`cards/pack`, {
+        return instance.post<AddApiType>(`cards/pack`, {
             cardsPack: {
                 name: "Dimaa"
             },
@@ -20,16 +37,14 @@ export const cardsAPI = {
         })
     },
     updatePack(idPack: string, token: string) {
-        debugger
-        return instance.put<ApiType>(`cards/pack`, {
+        return instance.put<UpdateApiType>(`cards/pack`, {
             cardsPack: {
                 _id: idPack
             },
             token
         })
+    },
+    deletePack(idPack: string,token: string ){
+        return instance.delete<DeleteApiType>(`/cards/pack?token=${token}&id=${idPack}`)
     }
-}
-
-type ApiType = {
-    cardPacks: Array<CardType>
 }
