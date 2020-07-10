@@ -63,6 +63,7 @@ const actions = {
 type thunkType = baseThunkType<LoginActionType>
 
 export const logIn = (email: string, password: string, rememberMe: boolean): thunkType => async (dispatch, getState: () => AppStateType) => {
+    debugger
     dispatch(actions.isLoading(true))
     try {
         const res = await authAPI.logIn(email, password, rememberMe)

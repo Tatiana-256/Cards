@@ -52,6 +52,7 @@ const actions = {
 type thunkType = baseThunkType<RegisterActionsType>
 
 export const registration = (email: string, password: string): thunkType => async (dispatch, getState: () => AppStateType) => {
+    debugger
     dispatch(actions.registerIsLoading)
     try {
         const res = await authAPI.registration(email, password)

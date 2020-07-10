@@ -1,3 +1,4 @@
+
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../../BLL/redux-store";
@@ -59,7 +60,7 @@ const Cards = () => {
                                     <Button buttonClass={'regularButton'}
                                             onClick={() => {
                                                 debugger
-                                              return dispatch(changeCardPack(card._id))
+                                                return dispatch(changeCardPack(card._id))
                                             }}>Update</Button>
                                     <Button buttonClass={'deleteButton'}>Delete</Button>
                                 </div>

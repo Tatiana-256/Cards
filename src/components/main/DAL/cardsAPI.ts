@@ -33,3 +33,5 @@ export const cardsAPI = {
 type ApiType = {
     cardPacks: Array<CardType>
 }
+
+
