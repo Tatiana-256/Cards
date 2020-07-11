@@ -1,21 +1,22 @@
 
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {AppStateType} from "../../../BLL/redux-store";
-import CustomInput from "../../common/input/Input";
-import Button from "../../common/button/Button";
-import styles from './Cards.module.css'
-import {addCardPack, changeCardPack, deleteCardPack, loadCardsData} from "../../../BLL/cards-reduser";
-import Preloader from "../../common/Preloader/Preloder";
+import {AppStateType} from "../../../../BLL/redux-store";
+import CustomInput from "../../../common/input/Input";
+import Button from "../../../common/button/Button";
+import styles from './CardsPack.module.css'
+// import {addCardPack, changeCardPack, deleteCardPack, loadCardsPackData} from "../../../../BLL/cardsRedusers/cardsPack-reduser";
+import Preloader from "../../../common/Preloader/Preloder";
+import {loadCardsPackData, addCardPack, changeCardPack, deleteCardPack} from '../../../../BLL/cards-reduser';
 
 
-const Cards = () => {
+const CardsPack = () => {
 
     const dispatch = useDispatch();
-    const {isLoading, cards} = useSelector((store: AppStateType) => store.cards)
+    const {isLoading, cards} = useSelector((store: AppStateType) => store.cardsPack)
 
     useEffect(() => {
-        dispatch(loadCardsData())
+        dispatch(loadCardsPackData())
     }, []);
 
     const addCardsButtonClick = () => {
@@ -60,7 +61,7 @@ const Cards = () => {
                     }
 
 
-                    return <div className={styles.cards} key={card._id}>
+                    return <div className={styles.cardsPack} key={card._id}>
                         <div>{card.name}</div>
                         <div>{card.rating}</div>
                         <div className={styles.buttons}>
@@ -81,4 +82,4 @@ const Cards = () => {
 }
 
 
-export default Cards
+export default CardsPack

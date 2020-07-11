@@ -1,22 +1,22 @@
 import axios from 'axios'
-import {CardType} from "../BLL/cards-reduser";
+import {CardPackType} from "../../BLL/cards-reduser";
 
 export const instance = axios.create({
     baseURL: "https://cards-nya-back.herokuapp.com/1.0/",
 })
 
 type GetApiType = {
-    cardPacks: Array<CardType>
+    cardPacks: Array<CardPackType>
     token: string
 }
 
 type AddApiType = {
-    newCardsPack: CardType
+    newCardsPack: CardPackType
     token: string
 }
 
 type UpdateApiType = {
-    updatedCardsPack: CardType
+    updatedCardsPack: CardPackType
     token: string
 }
 
@@ -25,10 +25,10 @@ type DeleteApiType = {
 }
 
 export const cardsAPI = {
-    getCards(token: string) {
+    getPack(token: string) {
         return instance.get<GetApiType>(`cards/pack?token=${token}`)
     },
-    addCards(token: string) {
+    addPack(token: string) {
         return instance.post<AddApiType>(`cards/pack`, {
             cardsPack: {
                 name: "Dimaa"
@@ -44,13 +44,13 @@ export const cardsAPI = {
             token
         })
     },
-    deletePack(idPack: string,token: string ){
+    deletePack(idPack: string, token: string) {
         return instance.delete<DeleteApiType>(`/cards/pack?token=${token}&id=${idPack}`)
     }
 }
 
 type ApiType = {
-    cardPacks: Array<CardType>
+    cardPacks: Array<CardPackType>
 }
 
 
