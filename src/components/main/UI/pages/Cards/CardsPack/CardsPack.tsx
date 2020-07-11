@@ -1,13 +1,16 @@
-
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../../../BLL/redux-store";
 import CustomInput from "../../../common/input/Input";
 import Button from "../../../common/button/Button";
-import styles from './CardsPack.module.css'
-// import {addCardPack, changeCardPack, deleteCardPack, loadCardsPackData} from "../../../../BLL/cardsRedusers/cardsPack-reduser";
+import styles from  './CardsPack.module.css'
 import Preloader from "../../../common/Preloader/Preloder";
-import {loadCardsPackData, addCardPack, changeCardPack, deleteCardPack} from '../../../../BLL/cardsRedusers/cardsPack-reduser';
+import {
+    addCardPack,
+    changeCardPack,
+    deleteCardPack,
+    loadCardsPackData
+} from '../../../../BLL/cardsRedusers/cardsPack-reduser';
 
 
 const CardsPack = () => {
@@ -51,6 +54,11 @@ const CardsPack = () => {
                     </div>
                     <Button onClick={addCardsButtonClick} buttonClass={'regularButton'}>Add</Button>
                 </div>
+                <div  className={styles.head}>
+                    <CustomInput/>
+                    <Button buttonClass={'regularButton'}>Add new Pack</Button>
+                </div>
+
                 {cards.map(card => {
                     const onChangePack = () => {
                         dispatch(changeCardPack(card._id))
@@ -66,6 +74,7 @@ const CardsPack = () => {
                         <div>{card.rating}</div>
                         <div className={styles.buttons}>
                             <Button buttonClass={'regularButton'}>Add to basket</Button>
+                            <Button buttonClass={'regularButton'}>Show Cards</Button>
                             <Button buttonClass={'regularButton'}
                                     onClick={onChangePack}
                             >Update</Button>
