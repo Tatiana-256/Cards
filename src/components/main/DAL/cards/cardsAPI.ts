@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {CardPackType} from "../../BLL/cards-reduser";
+import {CardPackType} from "../../BLL/cardsRedusers/cardsPack-reduser";
 
 export const instance = axios.create({
     baseURL: "https://cards-nya-back.herokuapp.com/1.0/",

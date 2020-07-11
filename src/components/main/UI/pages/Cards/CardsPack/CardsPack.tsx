@@ -7,7 +7,7 @@ import Button from "../../../common/button/Button";
 import styles from './CardsPack.module.css'
 // import {addCardPack, changeCardPack, deleteCardPack, loadCardsPackData} from "../../../../BLL/cardsRedusers/cardsPack-reduser";
 import Preloader from "../../../common/Preloader/Preloder";
-import {loadCardsPackData, addCardPack, changeCardPack, deleteCardPack} from '../../../../BLL/cards-reduser';
+import {loadCardsPackData, addCardPack, changeCardPack, deleteCardPack} from '../../../../BLL/cardsRedusers/cardsPack-reduser';
 
 
 const CardsPack = () => {

@@ -1,5 +1,5 @@
-import {AppStateType, baseThunkType, InferActionsTypes} from "./redux-store";
-import {cardsAPI} from "../DAL/cards/cardsAPI";
+import {AppStateType, baseThunkType, InferActionsTypes} from "../redux-store";
+import {cardsAPI} from "../../DAL/cards/cardsAPI";
 
 
 export type CardsPacksType = {
