@@ -1,8 +1,6 @@
-import React, {useEffect} from 'react';
-import Preloader from "../../../common/Preloader/Preloder";
+import React from 'react';
 import styles from "../CardsPack/CardsPack.module.css";
 import Button from "../../../common/button/Button";
-import {Card} from "./Card";
 
 
 export const Cards = () => {
