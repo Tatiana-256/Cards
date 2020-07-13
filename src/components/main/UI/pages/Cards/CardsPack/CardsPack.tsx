@@ -1,13 +1,18 @@
-
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../../../BLL/redux-store";
 import CustomInput from "../../../common/input/Input";
 import Button from "../../../common/button/Button";
 import styles from './CardsPack.module.css'
-// import {addCardPack, changeCardPack, deleteCardPack, loadCardsPackData} from "../../../../BLL/cardsRedusers/cardsPack-reduser";
 import Preloader from "../../../common/Preloader/Preloder";
-import {loadCardsPackData, addCardPack, changeCardPack, deleteCardPack} from '../../../../BLL/cardsRedusers/cardsPack-reduser';
+import {
+    loadCardsPackData,
+    addCardPack,
+    changeCardPack,
+    deleteCardPack,
+    CardPackType
+} from '../../../../BLL/cardsRedusers/cardsPack-reduser';
+import Table, {ITableModel} from "../../../common/Table/Table";
 
 
 const CardsPack = () => {
@@ -20,10 +25,46 @@ const CardsPack = () => {
     }, []);
 
     const addCardsButtonClick = () => {
-        debugger
         dispatch(addCardPack())
     }
 
+    const model: Array<ITableModel> = [
+        {
+            title: (index: number) => <div key={"names" + index}>Names</div>,
+            render(dataItem: CardPackType, dataIndex: number) {
+                return <div key={dataIndex + dataItem._id}>{dataItem.name}</div>
+            }
+        },
+        {
+            title: (index: number) => <div key={"rating" + index}>Rating</div>,
+            render(dataItem: CardPackType, dataIndex: number) {
+                return <div key={dataIndex + dataItem._id}>{dataItem.rating}</div>
+            }
+        },
+        {
+            title: (index: number) => <div key={"grade" + index}>Grade</div>,
+            render(dataItem: CardPackType, dataIndex: number) {
+                return <div key={dataIndex + dataItem._id}>{dataItem.grade}</div>
+            }
+        },
+        {
+            title: (index: number) => <div  key={"buttons" + index} style={{width: "400px"}}>Buttons</div>,
+            render(dataItem: CardPackType, dataIndex: number) {
+                const onDeletePack = () => {
+                    dispatch(deleteCardPack(dataItem._id))
+                }
+                const onChangePack = () => {
+                    dispatch(changeCardPack(dataItem._id))
+                }
+                return <div key={dataIndex + dataItem._id}>
+
+                    <Button onClick={onDeletePack} buttonClass={'deleteButton'}>Delete</Button>
+                    <Button onClick={onChangePack} buttonClass={'regularButton'}>Update</Button>
+                    <Button buttonClass={'regularButton'}>Add to basket</Button>
+                </div>
+            }
+        },
+    ]
 
     return <div>
         {isLoading ? <Preloader/> :
@@ -51,31 +92,7 @@ const CardsPack = () => {
                     </div>
                     <Button onClick={addCardsButtonClick} buttonClass={'regularButton'}>Add</Button>
                 </div>
-                {cards.map(card => {
-                    const onChangePack = () => {
-                        dispatch(changeCardPack(card._id))
-                    }
-
-                    const onDeletePack = () => {
-                        dispatch(deleteCardPack(card._id))
-                    }
-
-
-                    return <div className={styles.cardsPack} key={card._id}>
-                        <div>{card.name}</div>
-                        <div>{card.rating}</div>
-                        <div className={styles.buttons}>
-                            <Button buttonClass={'regularButton'}>Add to basket</Button>
-                            <Button buttonClass={'regularButton'}
-                                    onClick={onChangePack}
-                            >Update</Button>
-                            <Button buttonClass={'deleteButton'}
-                                    onClick={onDeletePack}
-                            >Delete</Button>
-                        </div>
-                    </div>
-                })
-                }
+                <Table model={model} data={cards}/>
             </div>
         }
     </div>

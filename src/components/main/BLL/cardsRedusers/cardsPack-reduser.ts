@@ -105,7 +105,7 @@ const actions = {
 type thunkType = baseThunkType<CardsPackActionsTypes>
 
 export const loadCardsPackData = (): thunkType => async (dispatch, getState: () => AppStateType) => {
-    dispatch(actions.isLoading(true))
+    // dispatch(actions.isLoading(true))
     try {
         const token = getState().login.token
         const res = await cardsAPI.getPack(token)

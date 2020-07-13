@@ -6,7 +6,6 @@ import axios from 'axios'
 
 export const authAPI = {
     logIn(email: string, password: string, rememberMe: boolean) {
-        debugger
         return (
             instance.post<LoginResponseType>(`/auth/login`,
                 {
@@ -18,8 +17,6 @@ export const authAPI = {
         )
     },
     registration(email: string, password: string) {
-        debugger
-
         return instance.post<RegisterResponseType>("/auth/register",
             {
                 email: email,
