@@ -1,6 +1,6 @@
 import {InferActionsTypes} from "../redux-store";
 
-type CardType = {
+export  type CardType = {
     answer: string
     question: string
     cardsPack_id: string
@@ -15,7 +15,7 @@ type CardType = {
 }
 
 
-type CardsType = {
+export type CardsType = {
     cards: Array<CardType>,
     cardsTotalCount: number,
     maxGrade: string,
@@ -26,6 +26,7 @@ type CardsType = {
     tokenDeathTime: number,
     isLoading: boolean
 }
+
 
 
 let initialState: CardsType = {
