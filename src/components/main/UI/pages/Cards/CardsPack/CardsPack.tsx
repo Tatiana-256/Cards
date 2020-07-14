@@ -16,6 +16,7 @@ import {
     showPackRatingToDown
 } from '../../../../BLL/cardsRedusers/cardsPack-reduser';
 import Table, {ITableModel} from "../../../common/Table/Table";
+import {NavLink} from 'react-router-dom';
 
 
 const CardsPack = () => {
@@ -82,8 +83,9 @@ const CardsPack = () => {
                 return <div key={dataIndex + dataItem._id} className={styles.buttons}>
                     <Button onClick={onDeletePack} buttonClass={'deleteButton'}>Delete</Button>
                     <Button onClick={onChangePack} buttonClass={'regularButton'}>Update</Button>
+                    <NavLink to='/cards/cards'><Button buttonClass={'regularButton'}>Show cards</Button></NavLink>
+                    <NavLink to=''><Button buttonClass={'regularButton'}>Learn</Button></NavLink>
                     <Button buttonClass={'regularButton'}>Add to basket</Button>
-                    <Button buttonClass={'regularButton'}>Show cards</Button>
                 </div>
             }
         },
@@ -109,7 +111,7 @@ const CardsPack = () => {
                     <div className={styles.searchTyping}>
                         <div>Product name</div>
                     </div>
-                    <div>
+                    <div className={styles.add}>
                         <CustomInput/>
                         <Button onClick={addCardsButtonClick} buttonClass={'regularButton'}>Add</Button>
                     </div>

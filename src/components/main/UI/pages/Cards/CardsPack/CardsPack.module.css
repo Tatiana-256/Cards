@@ -40,3 +40,7 @@
 .buttons .regularButton {
     height: 20px;
 }
+
+.add{
+    display: flex;
+}

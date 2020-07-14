@@ -1,4 +1,5 @@
-import {InferActionsTypes} from "../redux-store";
+import {AppStateType, baseThunkType, InferActionsTypes} from "../redux-store";
+import {cardsAPI} from "../../DAL/cards/cardsAPI";
 
 export  type CardType = {
     answer: string
@@ -28,7 +29,6 @@ export type CardsType = {
 }
 
 
-
 let initialState: CardsType = {
     cards: [],
     cardsTotalCount: 0,
@@ -43,13 +43,53 @@ let initialState: CardsType = {
 
 type InitialStateType = typeof initialState;
 
-export const cardsReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
+export const cardsReducer = (state = initialState, action: CardsActionsTypes): InitialStateType => {
     switch (action.type) {
+        case 'cardsReducer/LOAD_DATA':
+            return {
+                ...state,
+                cards: action.cards,
+                token: action.token,
+                isLoading: false
+            }
+        case "cardsReducer/IS_LOADING":
+            return {
+                ...state,
+                isLoading: action.value,
+
+            }
         default:
             return state;
     }
 }
 
-type ActionsTypes = InferActionsTypes<typeof actions>;
 
-const actions = {}
+type CardsActionsTypes = InferActionsTypes<typeof actions>;
+
+const actions = {
+    loadCards: (cards: Array<CardType>, token: string) => ({
+        type: 'cardsReducer/LOAD_DATA',
+        cards,
+        token
+    } as const),
+    isLoading: (value: boolean) => ({type: 'cardsReducer/IS_LOADING', value} as const),
+
+}
+
+//__________________ thunk-creators __________________
+
+type thunkType = baseThunkType<CardsActionsTypes>
+
+export const loadCardsData = (packId: string): thunkType => async (dispatch, getState: () => AppStateType) => {
+    try {
+        dispatch(actions.isLoading(true))
+        const token = getState().login.token
+        const res = await cardsAPI.getCards(token, packId)
+        // @ts-ignore
+        dispatch(actions.loadCards(res.cards, res.token))
+    } catch
+        (e) {
+        console.error(e.response.data.error)
+    }
+}
+

@@ -1,6 +1,17 @@
 import axios from "axios";
-import {CardsType, CardType} from "../../BLL/cardsRedusers/cards-reduser";
+import {CardType} from "../../BLL/cardsRedusers/cards-reduser";
 
+
+export type CardsResponseType = {
+    cards: Array<CardType>,
+    cardsTotalCount: number,
+    maxGrade: string,
+    minGrade: number,
+    page: number
+    pageCount: number,
+    token: string,
+    tokenDeathTime: number
+}
 
 const instance = axios.create({
     baseURL: 'https://cards-nya-back.herokuapp.com/1.0/'
@@ -9,10 +20,11 @@ const instance = axios.create({
 
 export const cardsAPI = {
     getCards(token: string, packId: string, page?: number) {
-        instance.get<CardsType>(`cards/card?&token=${token}&cardsPack_id=${packId}&pageCount=10&page=${page}`)
+        instance.get<CardsResponseType>(`cards/card?&token=${token}&cardsPack_id=${packId}&pageCount=10&page=${page}`)
             .then(res => {
-                return res.data
-            })
+                    return res.data
+                }
+            )
     },
     addCard(card: PostPutCardsType) {
         instance.post<PostCardResponseType>(`cards/card`, card)
