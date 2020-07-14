@@ -7,7 +7,13 @@ export const instance = axios.create({
 
 type GetApiType = {
     cardPacks: Array<CardPackType>
+    cardPacksTotalCount: number
+    maxGrade: number
+    minGrade: number
+    page: number
+    pageCount: number
     token: string
+    tokenDeathTime: number
 }
 
 type AddApiType = {
@@ -46,11 +52,24 @@ export const cardsPackAPI = {
     },
     deletePack(idPack: string, token: string) {
         return instance.delete<DeleteApiType>(`/cards/pack?token=${token}&id=${idPack}`)
-    }
-}
+    },
+    searchPack(token: string, inputValue: string) {
+        debugger
 
-type ApiType = {
-    cardPacks: Array<CardPackType>
+        return instance.put<GetApiType>(`/cards/pack?token=${token}&id=${inputValue}`)
+    },
+    setPage(token: string, currentPage: number) {
+        return instance.get<GetApiType>(`cards/pack?&token=${token}&page=${currentPage}`)
+
+    },
+    sortRatingToUp(token: string) {
+        return instance.get<GetApiType>
+        (`cards/pack?&token=${token}&sortPacks=1`);
+    },
+    sortRatingToDown(token: string) {
+        return instance.get<GetApiType>
+        (`cards/pack?&token=${token}&sortPacks=-1name`);
+    }
 }
 
 

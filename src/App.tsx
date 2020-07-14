@@ -8,6 +8,7 @@ import NewPasswordContainer from "./components/main/UI/pages/newPassword/NewPass
 import LoginPageContainer from "./components/main/UI/pages/Login/LogInPageContainer";
 import RegistrationContainer from './components/main/UI/pages/Registration/RegistrationContainer';
 import CardsPack from "./components/main/UI/pages/Cards/CardsPack/CardsPack";
+import {Cards} from "./components/main/UI/pages/Cards/Cards/Cards";
 
 
 const App = () => {
@@ -15,7 +16,8 @@ const App = () => {
         <div className="App">
             <Header/>
             <Route exact path="/login" component={LoginPageContainer}/>
-            <Route exact path="/cards" component={CardsPack}/>
+            <Route exact path="/cards/pack" component={CardsPack}/>
+            <Route exact path="/cards/cards" component={Cards}/>
             <Route exact path="/registration" component={RegistrationContainer}/>
             <Route exact path="/refreshPassword" component={ForgotPasswordContainer}/>
             <Route path="/set-new-password/:id">

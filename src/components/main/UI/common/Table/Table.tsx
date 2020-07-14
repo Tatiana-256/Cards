@@ -36,21 +36,22 @@ const Table: React.FC<ITableProps> = (
                 flexFlow: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
+                width: '100%',
                 ...tableStyle,
             }}
         >
             <div
                 style={{
                     paddingTop: "20px",
-                    paddingBottom:"20px",
+                    paddingBottom: "20px",
                     margin: "20px",
                     border: '1px solid black',
                     borderRadius: "5px",
-                    width: '100%',
+                    width: '90%',
                     display: 'flex',
                     flexFlow: 'row',
                     alignItems: 'center',
-                    justifyContent: 'space-between',
+                    justifyContent: 'space-around',
                     ...headerStyle,
                 }}
             >
@@ -61,7 +62,7 @@ const Table: React.FC<ITableProps> = (
                 style={{
                     borderRadius: "5px",
                     border: '1px solid black',
-                    width: '100%',
+                    width: '90%',
                     ...rowsStyle,
                 }}
             >
@@ -71,8 +72,9 @@ const Table: React.FC<ITableProps> = (
                         style={{
                             borderBottom: '1px solid black',
                             paddingTop: "10px",
-                            paddingBottom:"10px",
-                            width: '100%',
+                            paddingBottom: "10px",
+                            width: '90%',
+                            padding: '20px',
                             display: 'flex',
                             flexFlow: 'row',
                             alignItems: 'center',

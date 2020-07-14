@@ -44,35 +44,41 @@ type InitialStateType = typeof initialState;
 
 export const cardsPackReducer = (state = initialState, action: CardsPackActionsTypes): InitialStateType => {
     switch (action.type) {
-        case 'cardsReducer/LOAD_DATA':
+        case 'cardsPackReducer/LOAD_DATA':
             return {
                 ...state,
                 cards: action.cards,
                 token: action.token,
                 isLoading: false
             }
-        case "cardsReducer/IS_LOADING":
+        case "cardsPackReducer/IS_LOADING":
             return {
                 ...state,
                 isLoading: action.value,
 
             }
-        case "cardsReducer/ADD_CARD_PACK":
+        case "cardsPackReducer/ADD_CARD_PACK":
             return {
                 ...state,
                 cards: [action.newCardsPack, ...state.cards],
                 token: action.token
             }
-        case "cardsReducer/UPDATE_CARD_PACK":
+        case "cardsPackReducer/UPDATE_CARD_PACK":
             return {
                 ...state,
-                cards: state.cards.map(card => card._id === action.idPack? {...action.newPack}: card),
+                cards: state.cards.map(card => card._id === action.idPack ? {...action.newPack} : card),
                 token: action.token
             }
-        case "cardsReducer/DELETE_PACK":
+        case "cardsPackReducer/DELETE_PACK":
             return {
                 ...state,
                 cards: state.cards.filter(card => card._id !== action.idPack),
+                token: action.token
+            }
+        case "cardsPackReducer/SEARCH_PACK":
+            return {
+                ...state,
+                cards: action.cards,
                 token: action.token
             }
         default:
@@ -84,20 +90,34 @@ export const cardsPackReducer = (state = initialState, action: CardsPackActionsT
 type CardsPackActionsTypes = InferActionsTypes<typeof actions>
 
 const actions = {
-    loadData: (cards: Array<CardPackType>, token: string) => ({type: 'cardsReducer/LOAD_DATA', cards, token} as const),
-    isLoading: (value: boolean) => ({type: 'cardsReducer/IS_LOADING', value} as const),
+    loadData: (cards: Array<CardPackType>, token: string) => ({
+        type: 'cardsPackReducer/LOAD_DATA',
+        cards,
+        token
+    } as const),
+    isLoading: (value: boolean) => ({type: 'cardsPackReducer/IS_LOADING', value} as const),
     addCardPackSuccess: (newCardsPack: CardPackType, token: string) => ({
-        type: 'cardsReducer/ADD_CARD_PACK',
+        type: 'cardsPackReducer/ADD_CARD_PACK',
         newCardsPack,
         token
     } as const),
     changeCardPackSuccess: (idPack: string, newPack: CardPackType, token: string) => ({
-        type: 'cardsReducer/UPDATE_CARD_PACK',
+        type: 'cardsPackReducer/UPDATE_CARD_PACK',
         idPack,
         newPack,
         token
     } as const),
-    deleteCardPackSuccess:(idPack: string, token: string) => ({type: 'cardsReducer/DELETE_PACK', idPack, token} as const),
+    deleteCardPackSuccess: (idPack: string, token: string) => ({
+        type: 'cardsPackReducer/DELETE_PACK',
+        idPack,
+        token
+    } as const),
+    searchedPack: (cards: Array<CardPackType>, token: string) => ({
+        type: 'cardsPackReducer/SEARCH_PACK',
+        cards,
+        token
+    } as const)
+
 }
 
 //__________________ thunk-creators __________________
@@ -105,7 +125,7 @@ const actions = {
 type thunkType = baseThunkType<CardsPackActionsTypes>
 
 export const loadCardsPackData = (): thunkType => async (dispatch, getState: () => AppStateType) => {
-    // dispatch(actions.isLoading(true))
+    dispatch(actions.isLoading(true))
     try {
         const token = getState().login.token
         const res = await cardsPackAPI.getPack(token)
@@ -147,3 +167,37 @@ export const deleteCardPack = (idPack: string): thunkType => async (dispatch, ge
         console.error(e.response.data.error)
     }
 }
+
+
+export const showSearchedPack = (inputValue: string): thunkType => async (dispatch, getState: () => AppStateType) => {
+    try {
+        const token = getState().cardsPack.token
+        const res = await cardsPackAPI.searchPack(token, inputValue)
+        dispatch(actions.searchedPack(res.data.cardPacks, res.data.token))
+    } catch (e) {
+        console.error(e.response.data.error)
+    }
+
+}
+export const showPackRatingToUp = (): thunkType => async (dispatch, getState: () => AppStateType) => {
+    try {
+        const token = getState().cardsPack.token
+        const res = await cardsPackAPI.sortRatingToUp(token)
+        dispatch(actions.searchedPack(res.data.cardPacks, res.data.token))
+    } catch (e) {
+        console.error(e.response.data.error)
+    }
+}
+export const showPackRatingToDown = (): thunkType => async (dispatch, getState: () => AppStateType) => {
+    try {
+        const token = getState().cardsPack.token
+        const res = await cardsPackAPI.sortRatingToDown(token)
+        dispatch(actions.searchedPack(res.data.cardPacks, res.data.token))
+    } catch (e) {
+        console.error(e.response.data.error)
+    }
+
+}
+
+
+
