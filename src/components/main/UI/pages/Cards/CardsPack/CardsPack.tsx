@@ -16,6 +16,7 @@ import {
 import Table, {ITableModel} from "../../../common/Table/Table";
 import {Paginator} from "../../../common/Paginator/Paginator";
 import {NavLink} from 'react-router-dom';
+import {loadCardsData} from "../../../../BLL/cardsRedusers/cards-reduser";
 
 
 const CardsPack = () => {
@@ -89,7 +90,9 @@ const CardsPack = () => {
                 return <div key={dataIndex + dataItem._id} className={styles.buttons}>
                     <Button onClick={onDeletePack} buttonClass={'deleteButton'}>Delete</Button>
                     <Button onClick={onChangePack} buttonClass={'regularButton'}>Update</Button>
-                    <NavLink to='/cards/cards'><Button buttonClass={'regularButton'}>Show cards</Button></NavLink>
+                    <NavLink to='/cards/cards'><Button buttonClass={'regularButton'}
+                                                       onClick={() => loadCardsData(dataItem._id)}>Show
+                        cards</Button></NavLink>
                     <NavLink to=''><Button buttonClass={'regularButton'}>Learn</Button></NavLink>
                     <Button buttonClass={'regularButton'}>Add to basket</Button>
                 </div>

@@ -4,7 +4,7 @@ import Button from "../../../common/button/Button";
 import {useSelector} from 'react-redux';
 import {AppStateType} from '../../../../BLL/redux-store';
 import {CardType} from "../../../../BLL/cardsRedusers/cards-reduser";
-import { Card } from './Card';
+import {Card} from './Card';
 
 
 export const Cards = () => {
@@ -24,6 +24,7 @@ export const Cards = () => {
                 </div>
             </div>
             {packCards.map(card => {
+                debugger
                 return <Card _id={card._id} name={card.question} answer={card.answer} grade={card.grade}/>
             })
             }
