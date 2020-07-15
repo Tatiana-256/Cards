@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {CardPackType} from "../../BLL/cardsRedusers/cardsPack-reduser";
 
-export const instance = axios.create({
+const instance = axios.create({
     baseURL: "https://cards-nya-back.herokuapp.com/1.0/",
 })
 
@@ -12,29 +12,33 @@ type GetApiType = {
     minGrade: number
     page: number
     pageCount: number
-    token: string
+    token: string | null
     tokenDeathTime: number
 }
 
 type AddApiType = {
     newCardsPack: CardPackType
-    token: string
+    token: string | null
+    tokenDeathTime: number
 }
 
 type UpdateApiType = {
     updatedCardsPack: CardPackType
-    token: string
+    token: string | null
+    tokenDeathTime: number
 }
 
 type DeleteApiType = {
-    token: string
+    token: string | null
+    tokenDeathTime: number
+
 }
 
 export const cardsPackAPI = {
-    getPack(token: string) {
+    getPack(token: string | null) {
         return instance.get<GetApiType>(`cards/pack?token=${token}`)
     },
-    addPack(token: string) {
+    addPack(token: string | null) {
         return instance.post<AddApiType>(`cards/pack`, {
             cardsPack: {
                 name: "Dimaa"
@@ -42,7 +46,7 @@ export const cardsPackAPI = {
             token
         })
     },
-    updatePack(idPack: string, token: string) {
+    updatePack(idPack: string, token: string | null) {
         return instance.put<UpdateApiType>(`cards/pack`, {
             cardsPack: {
                 _id: idPack
@@ -50,25 +54,24 @@ export const cardsPackAPI = {
             token
         })
     },
-    deletePack(idPack: string, token: string) {
+    deletePack(idPack: string, token: string | null) {
         return instance.delete<DeleteApiType>(`/cards/pack?token=${token}&id=${idPack}`)
     },
-    searchPack(token: string, inputValue: string) {
-        debugger
-
-        return instance.put<GetApiType>(`/cards/pack?token=${token}&id=${inputValue}`)
+    searchPack(token: string | null, inputValue: string) {
+        return instance.get<GetApiType>(`/cards/pack?token=${token}&id=${inputValue}`)
     },
     setPage(token: string, currentPage: number) {
         return instance.get<GetApiType>(`cards/pack?&token=${token}&page=${currentPage}`)
 
     },
-    sortRatingToUp(token: string) {
+    sortRatingToUp(token: string | null) {
         return instance.get<GetApiType>
         (`cards/pack?&token=${token}&sortPacks=1`);
     },
-    sortRatingToDown(token: string) {
+
+    sortRatingToDown(token: string | null) {
         return instance.get<GetApiType>
-        (`cards/pack?&token=${token}&sortPacks=-1name`);
+        (`cards/pack?&token=${token}&sortPacks=0`);
     }
 }
 

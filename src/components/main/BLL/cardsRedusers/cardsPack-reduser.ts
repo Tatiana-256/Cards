@@ -1,5 +1,6 @@
 import {AppStateType, baseThunkType, InferActionsTypes} from "../redux-store";
 import {cardsPackAPI} from "../../DAL/cards/cardsPackAPI";
+import {getCookie, setCookie} from "../common/cookies";
 
 
 export type CardsPacksType = {
@@ -9,7 +10,7 @@ export type CardsPacksType = {
     minGrade: number,
     page: number
     pageCount: number,
-    token: string,
+    token: string | null,
     tokenDeathTime: number,
     isLoading: boolean
 }
@@ -90,29 +91,29 @@ export const cardsPackReducer = (state = initialState, action: CardsPackActionsT
 type CardsPackActionsTypes = InferActionsTypes<typeof actions>
 
 const actions = {
-    loadData: (cards: Array<CardPackType>, token: string) => ({
+    loadData: (cards: Array<CardPackType>, token: string | null) => ({
         type: 'cardsPackReducer/LOAD_DATA',
         cards,
         token
     } as const),
     isLoading: (value: boolean) => ({type: 'cardsPackReducer/IS_LOADING', value} as const),
-    addCardPackSuccess: (newCardsPack: CardPackType, token: string) => ({
+    addCardPackSuccess: (newCardsPack: CardPackType, token: string | null) => ({
         type: 'cardsPackReducer/ADD_CARD_PACK',
         newCardsPack,
         token
     } as const),
-    changeCardPackSuccess: (idPack: string, newPack: CardPackType, token: string) => ({
+    changeCardPackSuccess: (idPack: string, newPack: CardPackType, token: string | null) => ({
         type: 'cardsPackReducer/UPDATE_CARD_PACK',
         idPack,
         newPack,
         token
     } as const),
-    deleteCardPackSuccess: (idPack: string, token: string) => ({
+    deleteCardPackSuccess: (idPack: string, token: string | null) => ({
         type: 'cardsPackReducer/DELETE_PACK',
         idPack,
         token
     } as const),
-    searchedPack: (cards: Array<CardPackType>, token: string) => ({
+    searchedPack: (cards: Array<CardPackType>, token: string | null) => ({
         type: 'cardsPackReducer/SEARCH_PACK',
         cards,
         token
@@ -127,8 +128,9 @@ type thunkType = baseThunkType<CardsPackActionsTypes>
 export const loadCardsPackData = (): thunkType => async (dispatch, getState: () => AppStateType) => {
     dispatch(actions.isLoading(true))
     try {
-        const token = getState().login.token
+        const token: string | null = getCookie('token')
         const res = await cardsPackAPI.getPack(token)
+        setCookie('token', res.data.token, Math.floor(res.data.tokenDeathTime / 1000) - 180);
         dispatch(actions.loadData(res.data.cardPacks, res.data.token))
     } catch (e) {
         console.error(e.response.data.error)
@@ -138,8 +140,9 @@ export const loadCardsPackData = (): thunkType => async (dispatch, getState: () 
 export const addCardPack = (): thunkType => async (dispatch, getState: () => AppStateType) => {
 
     try {
-        const token = getState().cardsPack.token
+        const token: string | null = getCookie('token')
         const res = await cardsPackAPI.addPack(token)
+        setCookie('token', res.data.token, Math.floor(res.data.tokenDeathTime / 1000) - 180);
         dispatch(actions.addCardPackSuccess(res.data.newCardsPack, res.data.token))
     } catch (e) {
         console.error(e.response.data.error)
@@ -149,8 +152,9 @@ export const addCardPack = (): thunkType => async (dispatch, getState: () => App
 export const changeCardPack = (idPack: string): thunkType => async (dispatch, getState: () => AppStateType) => {
 
     try {
-        const token = getState().cardsPack.token
+        const token: string | null = getCookie('token')
         const res = await cardsPackAPI.updatePack(idPack, token)
+        setCookie('token', res.data.token, Math.floor(res.data.tokenDeathTime / 1000) - 180);
         dispatch(actions.changeCardPackSuccess(idPack, res.data.updatedCardsPack, res.data.token))
     } catch (e) {
         console.error(e.response.data.error)
@@ -160,8 +164,9 @@ export const changeCardPack = (idPack: string): thunkType => async (dispatch, ge
 export const deleteCardPack = (idPack: string): thunkType => async (dispatch, getState: () => AppStateType) => {
 
     try {
-        const token = getState().cardsPack.token
+        const token: string | null = getCookie('token')
         const res = await cardsPackAPI.deletePack(idPack, token)
+        setCookie('token', res.data.token, Math.floor(res.data.tokenDeathTime / 1000) - 180);
         dispatch(actions.deleteCardPackSuccess(idPack, res.data.token))
     } catch (e) {
         console.error(e.response.data.error)
@@ -170,9 +175,12 @@ export const deleteCardPack = (idPack: string): thunkType => async (dispatch, ge
 
 
 export const showSearchedPack = (inputValue: string): thunkType => async (dispatch, getState: () => AppStateType) => {
+    debugger
     try {
-        const token = getState().cardsPack.token
+        debugger
+        const token: string | null = getCookie('token')
         const res = await cardsPackAPI.searchPack(token, inputValue)
+        setCookie('token', res.data.token, Math.floor(res.data.tokenDeathTime / 1000) - 180);
         dispatch(actions.searchedPack(res.data.cardPacks, res.data.token))
     } catch (e) {
         console.error(e.response.data.error)
@@ -181,18 +189,21 @@ export const showSearchedPack = (inputValue: string): thunkType => async (dispat
 }
 export const showPackRatingToUp = (): thunkType => async (dispatch, getState: () => AppStateType) => {
     try {
-        const token = getState().cardsPack.token
+        const token: string | null = getCookie('token')
         const res = await cardsPackAPI.sortRatingToUp(token)
-        dispatch(actions.searchedPack(res.data.cardPacks, res.data.token))
+            .then(d => d.data)
+        setCookie('token', res.token, Math.floor(res.tokenDeathTime / 1000) - 180);
+        dispatch(actions.searchedPack(res.cardPacks, token))
     } catch (e) {
-        console.error(e.response.data.error)
+        console.error(e.response.error)
     }
 }
 export const showPackRatingToDown = (): thunkType => async (dispatch, getState: () => AppStateType) => {
     try {
-        const token = getState().cardsPack.token
-        const res = await cardsPackAPI.sortRatingToDown(token)
-        dispatch(actions.searchedPack(res.data.cardPacks, res.data.token))
+        const token: string | null = getCookie('token')
+        const res = await cardsPackAPI.sortRatingToDown(token).then(d => d.data)
+        setCookie('token', res.token, Math.floor(res.tokenDeathTime / 1000) - 180);
+        dispatch(actions.searchedPack(res.cardPacks, token))
     } catch (e) {
         console.error(e.response.data.error)
     }

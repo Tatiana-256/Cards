@@ -1,5 +1,6 @@
 import {AppStateType, baseThunkType, InferActionsTypes} from "./redux-store";
 import {authAPI} from "../DAL/authAPI";
+import {setTokenInCookie} from "./common/cookies";
 
 
 export type initialStateType = typeof initialState
@@ -66,7 +67,9 @@ export const logIn = (email: string, password: string, rememberMe: boolean): thu
     dispatch(actions.isLoading(true))
     try {
         const res = await authAPI.logIn(email, password, rememberMe)
-        dispatch(actions.isSuccess(true, res.data.token))
+            .then(data => data.data)
+        setTokenInCookie(res.token, res.tokenDeathTime)
+        dispatch(actions.isSuccess(true, res.token))
     } catch (e) {
         dispatch(actions.isError(true))
         console.error(e)

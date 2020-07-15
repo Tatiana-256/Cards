@@ -9,18 +9,20 @@ export type CardsResponseType = {
     minGrade: number,
     page: number
     pageCount: number,
-    token: string,
+    token:  string | null,
     tokenDeathTime: number
 }
 
+
 const instance = axios.create({
-    baseURL: 'https://cards-nya-back.herokuapp.com/1.0/'
-});
+    baseURL: "https://cards-nya-back.herokuapp.com/1.0/",
+})
+
 
 
 export const cardsAPI = {
-    getCards(token: string, packId: string, page?: number) {
-        instance.get<CardsResponseType>(`cards/card?&token=${token}&cardsPack_id=${packId}&pageCount=10&page=${page}`)
+    getCards(token:  string | null, packId: string, page?: number) {
+        return  instance.get<CardsResponseType>(`cards/card?&token=${token}&cardsPack_id=${packId}&pageCount=10&page=${page}`)
             .then(res => {
                     return res.data
                 }
@@ -30,13 +32,13 @@ export const cardsAPI = {
         instance.post<PostCardResponseType>(`cards/card`, card)
             .then(res => res.data)
     },
-    updateCards(card: PostPutCardsType, token: string) {
+    updateCards(card: PostPutCardsType, token:  string | null) {
         instance.put<PutCardResponseType>(`cards/card`, card)
             .then(res => {
                 return res.data
             })
     },
-    deleteCard(token: string, _id: string) {
+    deleteCard(token:  string | null, _id: string) {
         instance.delete<DeleteCardResponseType>(`cards/card?&token=${token}&id=${_id}`)
             .then(res => {
                 return res.data
@@ -50,7 +52,7 @@ export const cardsAPI = {
 export type DeleteCardResponseType = {
     deletedCard: CardType
     success: boolean
-    token: string
+    token:  string | null
     tokenDeathTime: number
 }
 export type PostPutCardType = {
@@ -65,17 +67,17 @@ export type PostPutCardType = {
 }
 export type PostPutCardsType = {
     card: PostPutCardType
-    token: string
+    token:  string | null
 }
 export type PostCardResponseType = {
     newCard: CardType
     success: boolean
-    token: string
+    token:  string | null
     tokenDeathTime: number
 }
 export type PutCardResponseType = {
     updatedCard: CardType
     success: boolean
-    token: string
+    token:  string | null
     tokenDeathTime: number
 }
