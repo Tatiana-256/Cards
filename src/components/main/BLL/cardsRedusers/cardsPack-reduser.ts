@@ -1,5 +1,5 @@
 import {AppStateType, baseThunkType, InferActionsTypes} from "../redux-store";
-import {cardsAPI} from "../../DAL/cards/cardsAPI";
+import {cardsPackAPI} from "../../DAL/cards/cardsAPI";
 
 
 export type CardsPacksType = {
@@ -122,7 +122,7 @@ export const loadCardsPackData = (): thunkType => async (dispatch, getState: () 
     // dispatch(actions.isLoading(true))
     try {
         const token = getState().login.token
-        const data = await cardsAPI.getPack(token)
+        const data = await cardsPackAPI.getPack(token)
         dispatch(actions.loadData(data.cardPacks, data.cardPacksTotalCount, data.page, data.pageCount, data.token))
     } catch (e) {
         console.error(e.response.data.error)
@@ -133,7 +133,7 @@ export const setNewPage = (pageCount: number, page?: number): thunkType => async
 
     try {
         const token = getState().cardsPack.token
-        const data = await cardsAPI.getPack(token, pageCount, page)
+        const data = await cardsPackAPI.getPack(token, pageCount, page)
         dispatch(actions.loadData(data.cardPacks, data.cardPacksTotalCount, data.page, data.pageCount, data.token))
     } catch (e) {
         console.error(e.response.data.error)
@@ -144,7 +144,7 @@ export const addCardPack = (): thunkType => async (dispatch, getState: () => App
 
     try {
         const token = getState().cardsPack.token
-        const res = await cardsAPI.addPack(token)
+        const res = await cardsPackAPI.addPack(token)
         dispatch(actions.addCardPackSuccess(res.data.newCardsPack, res.data.token))
     } catch (e) {
         console.error(e.response.data.error)
@@ -155,7 +155,7 @@ export const changeCardPack = (idPack: string): thunkType => async (dispatch, ge
 
     try {
         const token = getState().cardsPack.token
-        const res = await cardsAPI.updatePack(idPack, token)
+        const res = await cardsPackAPI.updatePack(idPack, token)
         dispatch(actions.changeCardPackSuccess(idPack, res.data.updatedCardsPack, res.data.token))
     } catch (e) {
         console.error(e.response.data.error)
@@ -166,7 +166,7 @@ export const deleteCardPack = (idPack: string): thunkType => async (dispatch, ge
 
     try {
         const token = getState().cardsPack.token
-        const res = await cardsAPI.deletePack(idPack, token)
+        const res = await cardsPackAPI.deletePack(idPack, token)
         dispatch(actions.deleteCardPackSuccess(idPack, res.data.token))
     } catch (e) {
         console.error(e.response.data.error)

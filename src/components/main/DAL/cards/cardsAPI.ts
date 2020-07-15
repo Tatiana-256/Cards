@@ -27,7 +27,7 @@ type DeleteApiType = {
     token: string
 }
 
-export const cardsAPI = {
+export const cardsPackAPI  = {
     getPack(token: string, pageCount: number = 4, page: number = 1) {
         return instance.get<GetApiType>(`cards/pack?token=${token}&pageCount=${pageCount}&page=${page}`).then(res => res.data)
     },
