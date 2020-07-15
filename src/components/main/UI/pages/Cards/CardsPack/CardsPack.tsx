@@ -6,14 +6,13 @@ import Button from "../../../common/button/Button";
 import styles from './CardsPack.module.css'
 import Preloader from "../../../common/Preloader/Preloder";
 import {
-    loadCardsPackData,
     addCardPack,
+    CardPackType,
     changeCardPack,
     deleteCardPack,
-    CardPackType,
-    showSearchedPack,
-    showPackRatingToUp,
-    showPackRatingToDown
+    loadCardsPackData,
+    searchPackByFilter,
+    showSearchedPack
 } from '../../../../BLL/cardsRedusers/cardsPack-reduser';
 import Table, {ITableModel} from "../../../common/Table/Table";
 import {NavLink} from 'react-router-dom';
@@ -44,11 +43,18 @@ const CardsPack = () => {
     const searchByName = () => {
         return dispatch(showSearchedPack(value))
     }
-    const searchRatingToUp = () => {
-        return dispatch(showPackRatingToUp())
+    const searchAtoZ = () => {
+        return dispatch(searchPackByFilter('1', 'name'))
     }
-    const searchRatingToDown = () => {
-        return dispatch(showPackRatingToDown())
+    const searchZtoA = () => {
+        return dispatch(searchPackByFilter('-1', 'name'))
+    }
+
+    const searchNew = () => {
+        return dispatch(searchPackByFilter('1', 'created'))
+    }
+    const searchOlder = () => {
+        return dispatch(searchPackByFilter('-1', 'created'))
     }
 
 
@@ -99,13 +105,12 @@ const CardsPack = () => {
                         <CustomInput onChange={onChangeHandler}/>
                         <Button buttonClass={'regularButton'} onClick={searchByName}>Search</Button>
                     </div>
-                    <div>
-                        <div>Rating</div>
-                        <div>
-                            <button onClick={searchRatingToUp}>↑</button>
-                            <button onClick={searchRatingToDown}>↓</button>
-                        </div>
-                    </div>
+                    <Button buttonClass={'regularButton'} onClick={searchAtoZ} style={{fontSize: '8'}}>Search A -
+                        Z </Button>
+                    <Button buttonClass={'regularButton'} onClick={searchZtoA}>Search Z - A </Button>
+                    <Button buttonClass={'regularButton'} onClick={searchNew}>Search by new </Button>
+                    <Button buttonClass={'regularButton'} onClick={searchOlder}>Search by oldest </Button>
+
                 </div>
                 <div className={styles.head}>
                     <div className={styles.searchTyping}>

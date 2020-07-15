@@ -58,20 +58,16 @@ export const cardsPackAPI = {
         return instance.delete<DeleteApiType>(`/cards/pack?token=${token}&id=${idPack}`)
     },
     searchPack(token: string | null, inputValue: string) {
+        debugger
         return instance.get<GetApiType>(`/cards/pack?token=${token}&id=${inputValue}`)
     },
     setPage(token: string, currentPage: number) {
         return instance.get<GetApiType>(`cards/pack?&token=${token}&page=${currentPage}`)
 
     },
-    sortRatingToUp(token: string | null) {
+    sortPacksByFilter(token: string | null, number?: string, filter?: string) {
         return instance.get<GetApiType>
-        (`cards/pack?&token=${token}&sortPacks=1`);
-    },
-
-    sortRatingToDown(token: string | null) {
-        return instance.get<GetApiType>
-        (`cards/pack?&token=${token}&sortPacks=0`);
+        (`cards/pack?&token=${token}&sortPacks=${number}${filter}`);
     }
 }
 

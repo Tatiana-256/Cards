@@ -177,37 +177,24 @@ export const deleteCardPack = (idPack: string): thunkType => async (dispatch, ge
 export const showSearchedPack = (inputValue: string): thunkType => async (dispatch, getState: () => AppStateType) => {
     debugger
     try {
-        debugger
         const token: string | null = getCookie('token')
         const res = await cardsPackAPI.searchPack(token, inputValue)
         setCookie('token', res.data.token, Math.floor(res.data.tokenDeathTime / 1000) - 180);
-        dispatch(actions.searchedPack(res.data.cardPacks, res.data.token))
+        dispatch(actions.loadData(res.data.cardPacks, res.data.token))
     } catch (e) {
         console.error(e.response.data.error)
     }
 
 }
-export const showPackRatingToUp = (): thunkType => async (dispatch, getState: () => AppStateType) => {
+export const searchPackByFilter = (number?: string, filter?:string): thunkType => async (dispatch, getState: () => AppStateType) => {
     try {
         const token: string | null = getCookie('token')
-        const res = await cardsPackAPI.sortRatingToUp(token)
-            .then(d => d.data)
-        setCookie('token', res.token, Math.floor(res.tokenDeathTime / 1000) - 180);
-        dispatch(actions.searchedPack(res.cardPacks, token))
-    } catch (e) {
-        console.error(e.response.error)
-    }
-}
-export const showPackRatingToDown = (): thunkType => async (dispatch, getState: () => AppStateType) => {
-    try {
-        const token: string | null = getCookie('token')
-        const res = await cardsPackAPI.sortRatingToDown(token).then(d => d.data)
+        const res = await cardsPackAPI.sortPacksByFilter(token, number, filter).then(d => d.data)
         setCookie('token', res.token, Math.floor(res.tokenDeathTime / 1000) - 180);
         dispatch(actions.searchedPack(res.cardPacks, token))
     } catch (e) {
         console.error(e.response.data.error)
     }
-
 }
 
 
