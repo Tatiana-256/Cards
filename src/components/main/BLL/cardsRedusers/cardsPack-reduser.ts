@@ -1,6 +1,6 @@
 import {AppStateType, baseThunkType, InferActionsTypes} from "../redux-store";
 import {cardsPackAPI} from "../../DAL/cards/cardsPackAPI";
-
+import {getCookie, setCookie} from "../common/cookies";
 
 
 export type CardsPacksType = {
@@ -45,7 +45,44 @@ type InitialStateType = typeof initialState;
 
 export const cardsPackReducer = (state = initialState, action: CardsPackActionsTypes): InitialStateType => {
     switch (action.type) {
-        case 'cardsReducer/LOAD_DATA':
+        case 'cardsPackReducer/LOAD_DATA':
+            return {
+                ...state,
+                cards: action.cards,
+                token: action.token,
+                isLoading: false
+            }
+        case "cardsPackReducer/IS_LOADING":
+            return {
+                ...state,
+                isLoading: action.value,
+
+            }
+        case "cardsPackReducer/ADD_CARD_PACK":
+            return {
+                ...state,
+                cards: [action.newCardsPack, ...state.cards],
+                token: action.token
+            }
+        case "cardsPackReducer/UPDATE_CARD_PACK":
+            return {
+                ...state,
+                cards: state.cards.map(card => card._id === action.idPack ? {...action.newPack} : card),
+                token: action.token
+            }
+        case "cardsPackReducer/DELETE_PACK":
+            return {
+                ...state,
+                cards: state.cards.filter(card => card._id !== action.idPack),
+                token: action.token
+            }
+        case "cardsPackReducer/SEARCH_PACK":
+            return {
+                ...state,
+                cards: action.cards,
+                token: action.token
+            }
+        case "cardsPackReducer/GET_DATA":
             return {
                 ...state,
                 cards: action.cards,
@@ -54,30 +91,6 @@ export const cardsPackReducer = (state = initialState, action: CardsPackActionsT
                 pageCount: action.pageCount,
                 token: action.token,
                 isLoading: false
-            }
-        case "cardsReducer/IS_LOADING":
-            return {
-                ...state,
-                isLoading: action.value,
-
-            }
-        case "cardsReducer/ADD_CARD_PACK":
-            return {
-                ...state,
-                cards: [action.newCardsPack, ...state.cards],
-                token: action.token
-            }
-        case "cardsReducer/UPDATE_CARD_PACK":
-            return {
-                ...state,
-                cards: state.cards.map(card => card._id === action.idPack ? {...action.newPack} : card),
-                token: action.token
-            }
-        case "cardsReducer/DELETE_PACK":
-            return {
-                ...state,
-                cards: state.cards.filter(card => card._id !== action.idPack),
-                token: action.token
             }
         default:
             return state;
@@ -88,28 +101,25 @@ export const cardsPackReducer = (state = initialState, action: CardsPackActionsT
 type CardsPackActionsTypes = InferActionsTypes<typeof actions>
 
 const actions = {
-    loadData: (cards: Array<CardPackType>, cardPacksTotalCount: number, page: number, pageCount: number, token: string | null) => ({
-        type: 'cardsReducer/LOAD_DATA',
+    loadData: (cards: Array<CardPackType>, token: string | null) => ({
+        type: 'cardsPackReducer/LOAD_DATA',
         cards,
-        cardPacksTotalCount,
-        page,
-        pageCount,
         token
     } as const),
-    isLoading: (value: boolean) => ({type: 'cardsReducer/IS_LOADING', value} as const),
+    isLoading: (value: boolean) => ({type: 'cardsPackReducer/IS_LOADING', value} as const),
     addCardPackSuccess: (newCardsPack: CardPackType, token: string | null) => ({
-        type: 'cardsReducer/ADD_CARD_PACK',
+        type: 'cardsPackReducer/ADD_CARD_PACK',
         newCardsPack,
         token
     } as const),
     changeCardPackSuccess: (idPack: string, newPack: CardPackType, token: string | null) => ({
-        type: 'cardsReducer/UPDATE_CARD_PACK',
+        type: 'cardsPackReducer/UPDATE_CARD_PACK',
         idPack,
         newPack,
         token
     } as const),
     deleteCardPackSuccess: (idPack: string, token: string | null) => ({
-        type: 'cardsReducer/DELETE_PACK',
+        type: 'cardsPackReducer/DELETE_PACK',
         idPack,
         token
     } as const),
@@ -117,7 +127,15 @@ const actions = {
         type: 'cardsPackReducer/SEARCH_PACK',
         cards,
         token
-    } as const)
+    } as const),
+    getData: (cards: Array<CardPackType>, cardPacksTotalCount: number, page: number, pageCount: number, token: string | null) => ({
+        type: 'cardsPackReducer/GET_DATA',
+        cards,
+        cardPacksTotalCount,
+        page,
+        pageCount,
+        token
+    } as const),
 }
 
 //__________________ thunk-creators __________________
@@ -125,11 +143,12 @@ const actions = {
 type thunkType = baseThunkType<CardsPackActionsTypes>
 
 export const loadCardsPackData = (): thunkType => async (dispatch, getState: () => AppStateType) => {
-    // dispatch(actions.isLoading(true))
+    dispatch(actions.isLoading(true))
     try {
-        const token = getState().login.token
+        const token: string | null = getCookie('token')
         const data = await cardsPackAPI.getPack(token)
-        dispatch(actions.loadData(data.cardPacks, data.cardPacksTotalCount, data.page, data.pageCount, data.token))
+        setCookie('token', data.token, Math.floor(data.tokenDeathTime / 1000) - 180);
+        dispatch(actions.getData(data.cardPacks, data.cardPacksTotalCount, data.page, data.pageCount, data.token))
     } catch (e) {
         console.error(e.response.data.error)
     }
@@ -140,7 +159,7 @@ export const setNewPage = (pageCount: number, page?: number): thunkType => async
     try {
         const token = getState().cardsPack.token
         const data = await cardsPackAPI.getPack(token, pageCount, page)
-        dispatch(actions.loadData(data.cardPacks, data.cardPacksTotalCount, data.page, data.pageCount, data.token))
+        dispatch(actions.getData(data.cardPacks, data.cardPacksTotalCount, data.page, data.pageCount, data.token))
     } catch (e) {
         console.error(e.response.data.error)
     }
@@ -149,8 +168,9 @@ export const setNewPage = (pageCount: number, page?: number): thunkType => async
 export const addCardPack = (): thunkType => async (dispatch, getState: () => AppStateType) => {
 
     try {
-        const token = getState().cardsPack.token
+        const token: string | null = getCookie('token')
         const res = await cardsPackAPI.addPack(token)
+        setCookie('token', res.data.token, Math.floor(res.data.tokenDeathTime / 1000) - 180);
         dispatch(actions.addCardPackSuccess(res.data.newCardsPack, res.data.token))
     } catch (e) {
         console.error(e.response.data.error)
@@ -160,8 +180,9 @@ export const addCardPack = (): thunkType => async (dispatch, getState: () => App
 export const changeCardPack = (idPack: string): thunkType => async (dispatch, getState: () => AppStateType) => {
 
     try {
-        const token = getState().cardsPack.token
+        const token: string | null = getCookie('token')
         const res = await cardsPackAPI.updatePack(idPack, token)
+        setCookie('token', res.data.token, Math.floor(res.data.tokenDeathTime / 1000) - 180);
         dispatch(actions.changeCardPackSuccess(idPack, res.data.updatedCardsPack, res.data.token))
     } catch (e) {
         console.error(e.response.data.error)
@@ -171,9 +192,33 @@ export const changeCardPack = (idPack: string): thunkType => async (dispatch, ge
 export const deleteCardPack = (idPack: string): thunkType => async (dispatch, getState: () => AppStateType) => {
 
     try {
-        const token = getState().cardsPack.token
+        const token: string | null = getCookie('token')
         const res = await cardsPackAPI.deletePack(idPack, token)
+        setCookie('token', res.data.token, Math.floor(res.data.tokenDeathTime / 1000) - 180);
         dispatch(actions.deleteCardPackSuccess(idPack, res.data.token))
+    } catch (e) {
+        console.error(e.response.data.error)
+    }
+}
+
+export const showSearchedPack = (inputValue: string): thunkType => async (dispatch, getState: () => AppStateType) => {
+    debugger
+    try {
+        const token: string | null = getCookie('token')
+        const res = await cardsPackAPI.searchPack(token, inputValue)
+        setCookie('token', res.data.token, Math.floor(res.data.tokenDeathTime / 1000) - 180);
+        dispatch(actions.loadData(res.data.cardPacks, res.data.token))
+    } catch (e) {
+        console.error(e.response.data.error)
+    }
+
+}
+export const searchPackByFilter = (number?: string, filter?: string): thunkType => async (dispatch, getState: () => AppStateType) => {
+    try {
+        const token: string | null = getCookie('token')
+        const res = await cardsPackAPI.sortPacksByFilter(token, number, filter).then(d => d.data)
+        setCookie('token', res.token, Math.floor(res.tokenDeathTime / 1000) - 180);
+        dispatch(actions.searchedPack(res.cardPacks, token))
     } catch (e) {
         console.error(e.response.data.error)
     }

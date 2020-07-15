@@ -4,7 +4,6 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-
 }
 
 .searchTyping, .head, .cards {
@@ -26,15 +25,13 @@
     border: 1px solid #acacac;
     margin-top: 10px;
     height: 140px;
-
 }
 
 .buttons {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 120px;
-
+    height: 170px;
 }
 
 .buttons .regularButton {
