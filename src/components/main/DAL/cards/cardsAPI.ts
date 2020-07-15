@@ -7,7 +7,10 @@ export const instance = axios.create({
 
 type GetApiType = {
     cardPacks: Array<CardPackType>
+    cardPacksTotalCount: number
     token: string
+    page: number
+    pageCount: number
 }
 
 type AddApiType = {
@@ -25,8 +28,8 @@ type DeleteApiType = {
 }
 
 export const cardsAPI = {
-    getPack(token: string) {
-        return instance.get<GetApiType>(`cards/pack?token=${token}`)
+    getPack(token: string, pageCount: number = 4, page: number = 1) {
+        return instance.get<GetApiType>(`cards/pack?token=${token}&pageCount=${pageCount}&page=${page}`).then(res => res.data)
     },
     addPack(token: string) {
         return instance.post<AddApiType>(`cards/pack`, {
@@ -47,10 +50,6 @@ export const cardsAPI = {
     deletePack(idPack: string, token: string) {
         return instance.delete<DeleteApiType>(`/cards/pack?token=${token}&id=${idPack}`)
     }
-}
-
-type ApiType = {
-    cardPacks: Array<CardPackType>
 }
 
 

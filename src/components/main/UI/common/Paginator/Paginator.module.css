@@ -1,0 +1,30 @@
+.paginator {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.select {
+    padding: 6px;
+    margin-right: 5px;
+}
+.pages {
+    padding: 5px;
+    border: 1px solid #000;
+}
+.pages:hover {
+    background-color: #65a3be;
+}
+
+.selectedPage {
+    background-color: #65a3be;
+}
+
+.paginatorArrow {
+    font-weight: bold;
+    font-size: 26px;
+}
+
+.paginatorArrow:hover {
+    color: #65a3be;
+}

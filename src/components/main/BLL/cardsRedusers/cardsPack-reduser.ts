@@ -48,6 +48,9 @@ export const cardsPackReducer = (state = initialState, action: CardsPackActionsT
             return {
                 ...state,
                 cards: action.cards,
+                cardsTotalCount: action.cardPacksTotalCount,
+                page: action.page,
+                pageCount: action.pageCount,
                 token: action.token,
                 isLoading: false
             }
@@ -66,7 +69,7 @@ export const cardsPackReducer = (state = initialState, action: CardsPackActionsT
         case "cardsReducer/UPDATE_CARD_PACK":
             return {
                 ...state,
-                cards: state.cards.map(card => card._id === action.idPack? {...action.newPack}: card),
+                cards: state.cards.map(card => card._id === action.idPack ? {...action.newPack} : card),
                 token: action.token
             }
         case "cardsReducer/DELETE_PACK":
@@ -84,7 +87,14 @@ export const cardsPackReducer = (state = initialState, action: CardsPackActionsT
 type CardsPackActionsTypes = InferActionsTypes<typeof actions>
 
 const actions = {
-    loadData: (cards: Array<CardPackType>, token: string) => ({type: 'cardsReducer/LOAD_DATA', cards, token} as const),
+    loadData: (cards: Array<CardPackType>, cardPacksTotalCount: number, page: number, pageCount: number, token: string) => ({
+        type: 'cardsReducer/LOAD_DATA',
+        cards,
+        cardPacksTotalCount,
+        page,
+        pageCount,
+        token
+    } as const),
     isLoading: (value: boolean) => ({type: 'cardsReducer/IS_LOADING', value} as const),
     addCardPackSuccess: (newCardsPack: CardPackType, token: string) => ({
         type: 'cardsReducer/ADD_CARD_PACK',
@@ -97,7 +107,11 @@ const actions = {
         newPack,
         token
     } as const),
-    deleteCardPackSuccess:(idPack: string, token: string) => ({type: 'cardsReducer/DELETE_PACK', idPack, token} as const),
+    deleteCardPackSuccess: (idPack: string, token: string) => ({
+        type: 'cardsReducer/DELETE_PACK',
+        idPack,
+        token
+    } as const),
 }
 
 //__________________ thunk-creators __________________
@@ -108,8 +122,19 @@ export const loadCardsPackData = (): thunkType => async (dispatch, getState: () 
     // dispatch(actions.isLoading(true))
     try {
         const token = getState().login.token
-        const res = await cardsAPI.getPack(token)
-        dispatch(actions.loadData(res.data.cardPacks, res.data.token))
+        const data = await cardsAPI.getPack(token)
+        dispatch(actions.loadData(data.cardPacks, data.cardPacksTotalCount, data.page, data.pageCount, data.token))
+    } catch (e) {
+        console.error(e.response.data.error)
+    }
+}
+
+export const setNewPage = (pageCount: number, page?: number): thunkType => async (dispatch, getState: () => AppStateType) => {
+
+    try {
+        const token = getState().cardsPack.token
+        const data = await cardsAPI.getPack(token, pageCount, page)
+        dispatch(actions.loadData(data.cardPacks, data.cardPacksTotalCount, data.page, data.pageCount, data.token))
     } catch (e) {
         console.error(e.response.data.error)
     }

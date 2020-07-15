@@ -13,6 +13,7 @@ import {
     CardPackType
 } from '../../../../BLL/cardsRedusers/cardsPack-reduser';
 import Table, {ITableModel} from "../../../common/Table/Table";
+import {Paginator} from "../../../common/Paginator/Paginator";
 
 
 const CardsPack = () => {
@@ -93,6 +94,7 @@ const CardsPack = () => {
                     <Button onClick={addCardsButtonClick} buttonClass={'regularButton'}>Add</Button>
                 </div>
                 <Table model={model} data={cards}/>
+                <Paginator/>
             </div>
         }
     </div>
