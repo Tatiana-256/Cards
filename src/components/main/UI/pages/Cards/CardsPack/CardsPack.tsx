@@ -11,8 +11,7 @@ import {
     changeCardPack,
     deleteCardPack,
     loadCardsPackData,
-    searchPackByFilter,
-    showSearchedPack
+
 } from '../../../../BLL/cardsRedusers/cardsPack-reduser';
 import Table, {ITableModel} from "../../../common/Table/Table";
 import {Paginator} from "../../../common/Paginator/Paginator";
@@ -41,22 +40,22 @@ const CardsPack = () => {
         setValue(e.currentTarget.value)
     }
 
-    const searchByName = () => {
-        return dispatch(showSearchedPack(value))
-    }
-    const searchAtoZ = () => {
-        return dispatch(searchPackByFilter('1', 'name'))
-    }
-    const searchZtoA = () => {
-        return dispatch(searchPackByFilter('-1', 'name'))
-    }
-
-    const searchNew = () => {
-        return dispatch(searchPackByFilter('1', 'created'))
-    }
-    const searchOlder = () => {
-        return dispatch(searchPackByFilter('-1', 'created'))
-    }
+    // const searchByName = () => {
+    //     return dispatch(showSearchedPack(value))
+    // }
+    // const searchAtoZ = () => {
+    //     return dispatch(searchPackByFilter('1', 'name'))
+    // }
+    // const searchZtoA = () => {
+    //     return dispatch(searchPackByFilter('-1', 'name'))
+    // }
+    //
+    // const searchNew = () => {
+    //     return dispatch(searchPackByFilter('1', 'created'))
+    // }
+    // const searchOlder = () => {
+    //     return dispatch(searchPackByFilter('-1', 'created'))
+    // }
 
 
     const model: Array<ITableModel> = [
@@ -102,15 +101,15 @@ const CardsPack = () => {
         {isLoading ? <Preloader/> :
             <div className={styles.container}>
                 <div className={styles.head}>
-                    <div className={styles.searchTyping}>
-                        <CustomInput onChange={onChangeHandler}/>
-                        <Button buttonClass={'regularButton'} onClick={searchByName}>Search</Button>
-                    </div>
-                    <Button buttonClass={'regularButton'} onClick={searchAtoZ} style={{fontSize: '8'}}>Search A -
-                        Z </Button>
-                    <Button buttonClass={'regularButton'} onClick={searchZtoA}>Search Z - A </Button>
-                    <Button buttonClass={'regularButton'} onClick={searchNew}>Search by new </Button>
-                    <Button buttonClass={'regularButton'} onClick={searchOlder}>Search by oldest </Button>
+                    {/*<div className={styles.searchTyping}>*/}
+                    {/*    <CustomInput onChange={onChangeHandler}/>*/}
+                    {/*    <Button buttonClass={'regularButton'} onClick={searchByName}>Search</Button>*/}
+                    {/*</div>*/}
+                    {/*<Button buttonClass={'regularButton'} onClick={searchAtoZ} style={{fontSize: '8'}}>Search A -*/}
+                    {/*    Z </Button>*/}
+                    {/*<Button buttonClass={'regularButton'} onClick={searchZtoA}>Search Z - A </Button>*/}
+                    {/*<Button buttonClass={'regularButton'} onClick={searchNew}>Search by new </Button>*/}
+                    {/*<Button buttonClass={'regularButton'} onClick={searchOlder}>Search by oldest </Button>*/}
 
                 </div>
                 <div className={styles.head}>

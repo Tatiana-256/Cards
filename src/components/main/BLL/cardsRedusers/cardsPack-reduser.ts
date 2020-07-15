@@ -1,5 +1,6 @@
 import {AppStateType, baseThunkType, InferActionsTypes} from "../redux-store";
-import {cardsPackAPI} from "../../DAL/cards/cardsAPI";
+import {cardsPackAPI} from "../../DAL/cards/cardsPackAPI";
+
 
 
 export type CardsPacksType = {
@@ -9,7 +10,7 @@ export type CardsPacksType = {
     minGrade: number,
     page: number
     pageCount: number,
-    token: string,
+    token: string | null,
     tokenDeathTime: number,
     isLoading: boolean
 }
@@ -87,7 +88,7 @@ export const cardsPackReducer = (state = initialState, action: CardsPackActionsT
 type CardsPackActionsTypes = InferActionsTypes<typeof actions>
 
 const actions = {
-    loadData: (cards: Array<CardPackType>, cardPacksTotalCount: number, page: number, pageCount: number, token: string) => ({
+    loadData: (cards: Array<CardPackType>, cardPacksTotalCount: number, page: number, pageCount: number, token: string | null) => ({
         type: 'cardsReducer/LOAD_DATA',
         cards,
         cardPacksTotalCount,
@@ -96,22 +97,27 @@ const actions = {
         token
     } as const),
     isLoading: (value: boolean) => ({type: 'cardsReducer/IS_LOADING', value} as const),
-    addCardPackSuccess: (newCardsPack: CardPackType, token: string) => ({
+    addCardPackSuccess: (newCardsPack: CardPackType, token: string | null) => ({
         type: 'cardsReducer/ADD_CARD_PACK',
         newCardsPack,
         token
     } as const),
-    changeCardPackSuccess: (idPack: string, newPack: CardPackType, token: string) => ({
+    changeCardPackSuccess: (idPack: string, newPack: CardPackType, token: string | null) => ({
         type: 'cardsReducer/UPDATE_CARD_PACK',
         idPack,
         newPack,
         token
     } as const),
-    deleteCardPackSuccess: (idPack: string, token: string) => ({
+    deleteCardPackSuccess: (idPack: string, token: string | null) => ({
         type: 'cardsReducer/DELETE_PACK',
         idPack,
         token
     } as const),
+    searchedPack: (cards: Array<CardPackType>, token: string | null) => ({
+        type: 'cardsPackReducer/SEARCH_PACK',
+        cards,
+        token
+    } as const)
 }
 
 //__________________ thunk-creators __________________
@@ -172,3 +178,4 @@ export const deleteCardPack = (idPack: string): thunkType => async (dispatch, ge
         console.error(e.response.data.error)
     }
 }
+
