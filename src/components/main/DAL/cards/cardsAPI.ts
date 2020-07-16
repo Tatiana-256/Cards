@@ -43,7 +43,10 @@ export const cardsAPI = {
             .then(res => {
                 return res.data
             })
-    }
+    },
+    searchCard(token: string | null, inputValue: string,  ) {
+        return instance.get<CardsResponseType>(`/cards/card?token=${token}&cardQuestion=${inputValue}`)
+    },
 }
 
 
