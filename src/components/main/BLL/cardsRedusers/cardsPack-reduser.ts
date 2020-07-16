@@ -2,19 +2,6 @@ import {AppStateType, baseThunkType, InferActionsTypes} from "../redux-store";
 import {cardsPackAPI} from "../../DAL/cards/cardsPackAPI";
 import {getCookie, setCookie} from "../common/cookies";
 
-
-export type CardsPacksType = {
-    cards: Array<CardPackType>,
-    cardsTotalCount: number,
-    maxGrade: string,
-    minGrade: number,
-    page: number
-    pageCount: number,
-    token: string | null,
-    tokenDeathTime: number,
-    isLoading: boolean
-}
-
 export type CardPackType = {
     _id: string
     user_id: string,
@@ -27,6 +14,18 @@ export type CardPackType = {
     created: string
     updated: string
     __v: number
+}
+
+export type CardsPacksType = {
+    cards: Array<CardPackType>,
+    cardsTotalCount: number,
+    maxGrade: string,
+    minGrade: number,
+    page: number
+    pageCount: number,
+    token: string | null,
+    tokenDeathTime: number,
+    isLoading: boolean
 }
 
 let initialState: CardsPacksType = {

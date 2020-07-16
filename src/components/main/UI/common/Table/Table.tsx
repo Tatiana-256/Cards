@@ -1,14 +1,18 @@
 import React, {CSSProperties, ReactNode} from 'react';
 import {CardPackType} from "../../../BLL/cardsRedusers/cardsPack-reduser";
+import {CardType} from "../../../BLL/cardsRedusers/cards-reduser";
+
 
 export interface ITableModel {
     title: (index: number) => ReactNode;
-    render: (dataItem: CardPackType, modelIndex: number, dataIndex: number) => ReactNode;
+    render: (dataItem: any, modelIndex: number, dataIndex: number) => ReactNode;
+    // render: (dataItem: CardPackType | CardType, modelIndex: number, dataIndex: number) => ReactNode;
 }
 
 interface ITableProps {
     model: ITableModel[];
-    data: Array<CardPackType>;
+    data: any
+    // data: Array<CardPackType> | Array<CardType>
 
     headerStyle?: CSSProperties,
     tableStyle?: CSSProperties,
@@ -42,8 +46,7 @@ const Table: React.FC<ITableProps> = (
         >
             <div
                 style={{
-                    paddingTop: "20px",
-                    paddingBottom: "20px",
+                    padding: "20px 0",
                     margin: "20px",
                     border: '1px solid black',
                     borderRadius: "5px",
@@ -51,7 +54,7 @@ const Table: React.FC<ITableProps> = (
                     display: 'flex',
                     flexFlow: 'row',
                     alignItems: 'center',
-                    justifyContent: 'space-around',
+                    justifyContent: 'space-between',
                     ...headerStyle,
                 }}
             >
@@ -66,15 +69,12 @@ const Table: React.FC<ITableProps> = (
                     ...rowsStyle,
                 }}
             >
-                {data.map((dataItem: CardPackType, dataIndex: number) => (
+                {/*CardPackType | CardType*/}
+                {data.map((dataItem: any, dataIndex: number) => (
                     <div
                         key={dataItem._id || dataIndex}
                         style={{
                             borderBottom: '1px solid black',
-                            paddingTop: "10px",
-                            paddingBottom: "10px",
-                            width: '90%',
-                            padding: '20px',
                             display: 'flex',
                             flexFlow: 'row',
                             alignItems: 'center',
