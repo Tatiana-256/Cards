@@ -62,7 +62,6 @@ export const cardsPackAPI = {
     },
     setPage(token: string, currentPage: number) {
         return instance.get<GetApiType>(`cards/pack?&token=${token}&page=${currentPage}`)
-
     },
     sortPacksByFilter(token: string | null, number?: string, filter?: string) {
         return instance.get<GetApiType>

@@ -202,7 +202,6 @@ export const deleteCardPack = (idPack: string): thunkType => async (dispatch, ge
 }
 
 export const showSearchedPack = (inputValue: string): thunkType => async (dispatch, getState: () => AppStateType) => {
-    debugger
     try {
         const token: string | null = getCookie('token')
         const res = await cardsPackAPI.searchPack(token, inputValue)
