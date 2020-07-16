@@ -1,13 +1,20 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styles from "../CardsPack/CardsPack.module.css";
 import Button from "../../../common/button/Button";
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {AppStateType} from '../../../../BLL/redux-store';
-import {CardType} from "../../../../BLL/cardsRedusers/cards-reduser";
+import {CardType, loadCardsData} from "../../../../BLL/cardsRedusers/cards-reduser";
 import {Card} from './Card';
+import {useParams} from "react-router-dom";
 
 
 export const Cards = () => {
+    let {id} = useParams()
+    const dispatch = useDispatch()
+    useEffect(() => {
+        debugger
+       dispatch( loadCardsData(id))
+    }, [dispatch])
 
     const packCards = useSelector<AppStateType, Array<CardType>>(state => state.cards.cards)
 

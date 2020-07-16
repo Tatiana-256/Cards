@@ -17,12 +17,10 @@ const App = () => {
             <Header/>
             <Route exact path="/login" component={LoginPageContainer}/>
             <Route exact path="/cards/pack" component={CardsPack}/>
-            <Route exact path="/cards/cards" component={Cards}/>
+            <Route path="/cards/cards/:id" component={Cards}/>
             <Route exact path="/registration" component={RegistrationContainer}/>
             <Route exact path="/refreshPassword" component={ForgotPasswordContainer}/>
-            <Route path="/set-new-password/:id">
-                <NewPasswordContainer/>
-            </Route>
+            <Route path="/set-new-password/:id" component={NewPasswordContainer}/>
             <Route exact path="/" component={Profile}/>
         </div>
     );

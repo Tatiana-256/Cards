@@ -22,6 +22,7 @@ const instance = axios.create({
 
 export const cardsAPI = {
     getCards(token:  string | null, packId: string, page?: number) {
+        debugger
         return  instance.get<CardsResponseType>(`cards/card?&token=${token}&cardsPack_id=${packId}&pageCount=10&page=${page}`)
             .then(res => {
                     return res.data

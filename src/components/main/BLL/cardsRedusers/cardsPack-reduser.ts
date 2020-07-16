@@ -157,8 +157,9 @@ export const loadCardsPackData = (): thunkType => async (dispatch, getState: () 
 export const setNewPage = (pageCount: number, page?: number): thunkType => async (dispatch, getState: () => AppStateType) => {
 
     try {
-        const token = getState().cardsPack.token
+        const token: string | null = getCookie('token')
         const data = await cardsPackAPI.getPack(token, pageCount, page)
+        setCookie('token', data.token, Math.floor(data.tokenDeathTime / 1000) - 180);
         dispatch(actions.getData(data.cardPacks, data.cardPacksTotalCount, data.page, data.pageCount, data.token))
     } catch (e) {
         console.error(e.response.data.error)
@@ -180,6 +181,7 @@ export const addCardPack = (): thunkType => async (dispatch, getState: () => App
 export const changeCardPack = (idPack: string): thunkType => async (dispatch, getState: () => AppStateType) => {
 
     try {
+
         const token: string | null = getCookie('token')
         const res = await cardsPackAPI.updatePack(idPack, token)
         setCookie('token', res.data.token, Math.floor(res.data.tokenDeathTime / 1000) - 180);

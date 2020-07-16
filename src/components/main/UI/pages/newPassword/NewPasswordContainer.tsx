@@ -8,7 +8,6 @@ import {AppStateType} from "../../../BLL/redux-store";
 const NewPasswordContainer = () => {
 
     let {id} = useParams()
-
     const dispatch = useDispatch()
     const {isFetching, error, unError, messageError} = useSelector((store: AppStateType) => store.newPass)
 

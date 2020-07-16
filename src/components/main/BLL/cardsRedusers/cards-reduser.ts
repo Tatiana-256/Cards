@@ -84,6 +84,7 @@ export const loadCardsData = (packId: string): thunkType => async (dispatch, get
     try {
         dispatch(actions.isLoading(true))
         const token: string | null = getCookie('token')
+        debugger
         const res = await cardsAPI.getCards(token, packId)
         setCookie('token', res.token, Math.floor(res.tokenDeathTime / 1000) - 180);
         dispatch(actions.loadCards(res.cards, res.token))
