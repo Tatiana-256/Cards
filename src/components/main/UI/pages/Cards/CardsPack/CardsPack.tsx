@@ -15,11 +15,14 @@ import {
 import Table, {ITableModel} from "../../../common/Table/Table";
 import {Paginator} from "../../../common/Paginator/Paginator";
 import {NavLink} from 'react-router-dom';
+import {ModuleUp} from "../../../common/moduls/buttonUp/buttonUp";
+import {UpdatePackModule} from "../../../common/moduls/windowModules/updatePackModule";
 
 
 const CardsPack = () => {
 
     const [value, setValue] = useState('');
+    const [showModule, setShowModule] = useState(false)
 
 
     const dispatch = useDispatch();
@@ -30,7 +33,7 @@ const CardsPack = () => {
     }, [dispatch]);
 
     const addCardsButtonClick = () => {
-        dispatch(addCardPack())
+        dispatch(addCardPack(value))
         setValue('')
     }
 
@@ -83,15 +86,21 @@ const CardsPack = () => {
                 }
                 const onChangePack = () => {
                     dispatch(changeCardPack(dataItem._id))
+                    setShowModule(false)
                 }
-                return <div key={dataIndex + dataItem._id} className={styles.buttons}>
-                    <Button onClick={onDeletePack} buttonClass={'deleteButton'}>Delete</Button>
-                    <Button onClick={onChangePack} buttonClass={'regularButton'}>Update</Button>
-                    <NavLink to={`/cards/cards/${dataItem._id}`}><Button buttonClass={'regularButton'}>Show
-                        cards</Button></NavLink>
-                    <NavLink to=''><Button buttonClass={'regularButton'}>Learn</Button></NavLink>
-                    <Button buttonClass={'regularButton'}>Add to basket</Button>
-                </div>
+                return <>
+                    <div key={dataIndex + dataItem._id} className={styles.buttons}>
+                        <Button onClick={onDeletePack} buttonClass={'deleteButton'}>Delete</Button>
+                        <Button onClick={() => setShowModule(true)}
+                                buttonClass={'regularButton'}>Update</Button>
+                        <NavLink to={`/cards/cards/${dataItem._id}`}><Button buttonClass={'regularButton'}>Show
+                            cards</Button></NavLink>
+                        <NavLink to=''><Button buttonClass={'regularButton'}>Learn</Button></NavLink>
+                        <Button buttonClass={'regularButton'}>Add to basket</Button>
+                    </div>
+                    <UpdatePackModule showModule={showModule} packName={dataItem.name} ChangePack={onChangePack}
+                                      backgroundOnClick={() => setShowModule(false)}/>
+                </>
             }
         },
     ]
@@ -104,23 +113,22 @@ const CardsPack = () => {
                         <CustomInput onChange={onChangeHandler}/>
                         <Button buttonClass={'regularButton'} onClick={searchByName}>Search</Button>
                     </div>
-                    <Button buttonClass={'regularButton'} onClick={searchAtoZ} style={{fontSize: '8'}}>Search A -
-                        Z </Button>
-                    <Button buttonClass={'regularButton'} onClick={searchZtoA}>Search Z - A </Button>
-                    <Button buttonClass={'regularButton'} onClick={searchNew}>Search by new </Button>
-                    <Button buttonClass={'regularButton'} onClick={searchOlder}>Search by oldest </Button>
 
+                    <div className={styles.searchTyping}>
+                        <Button buttonClass={'smallButton'} onClick={searchAtoZ}>Search A-Z </Button>
+                        <Button buttonClass={'smallButton'} onClick={searchZtoA}>Search Z-A </Button>
+                        <Button buttonClass={'smallButton'} onClick={searchNew}>Search by new </Button>
+                        <Button buttonClass={'smallButton'} onClick={searchOlder}>Search by oldest </Button>
+                    </div>
                 </div>
                 <div className={styles.head}>
                     <div className={styles.searchTyping}>
-                        <div>Product name</div>
-                    </div>
-                    <div className={styles.add}>
-                        <CustomInput/>
-                        <Button onClick={addCardsButtonClick} buttonClass={'regularButton'}>Add</Button>
+                        <div><CustomInput onChange={onChangeHandler}/></div>
+                        <Button onClick={addCardsButtonClick} buttonClass={'bigButton'}>Add new cards pack</Button>
                     </div>
                 </div>
                 <Table model={model} data={cards}/>
+                <ModuleUp/>
                 <Paginator/>
             </div>
         }

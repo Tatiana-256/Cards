@@ -165,11 +165,11 @@ export const setNewPage = (pageCount: number, page?: number): thunkType => async
     }
 }
 
-export const addCardPack = (): thunkType => async (dispatch, getState: () => AppStateType) => {
+export const addCardPack = (value: string): thunkType => async (dispatch, getState: () => AppStateType) => {
 
     try {
         const token: string | null = getCookie('token')
-        const res = await cardsPackAPI.addPack(token)
+        const res = await cardsPackAPI.addPack(token, value)
         setCookie('token', res.data.token, Math.floor(res.data.tokenDeathTime / 1000) - 180);
         dispatch(actions.addCardPackSuccess(res.data.newCardsPack, res.data.token))
     } catch (e) {

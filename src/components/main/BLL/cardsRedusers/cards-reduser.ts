@@ -163,3 +163,13 @@ export const updateCard = (cardId: string): thunkType => async (dispatch) => {
         console.error(e.response.data.error)
     }
 };
+export const searchCardByQuestion = (inputValue: string): thunkType => async (dispatch) => {
+    try {
+        const token: string | null = getCookie('token')
+        const data = await cardsAPI.searchCard(token, inputValue).then(res => res.data);
+        setCookie('token', data.token, Math.floor(data.tokenDeathTime / 1000) - 180);
+        dispatch(actions.loadCards(data.cards, data.token));
+    } catch (e) {
+        console.error(e.response.data.error)
+    }
+};

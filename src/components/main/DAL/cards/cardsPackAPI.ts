@@ -38,10 +38,10 @@ export const cardsPackAPI = {
     getPack(token: string | null, pageCount: number = 4, page: number = 1,) {
         return instance.get<GetApiType>(`cards/pack?token=${token}&pageCount=${pageCount}&page=${page}`).then(res => res.data)
     },
-    addPack(token: string | null) {
+    addPack(token: string | null, value?: string) {
         return instance.post<AddApiType>(`cards/pack`, {
             cardsPack: {
-                name: "Dimaa"
+                name: value
             },
             token
         })
@@ -57,7 +57,7 @@ export const cardsPackAPI = {
     deletePack(idPack: string, token: string | null) {
         return instance.delete<DeleteApiType>(`/cards/pack?token=${token}&id=${idPack}`)
     },
-    searchPack(token: string | null, inputValue: string,  ) {
+    searchPack(token: string | null, inputValue: string,) {
         return instance.get<GetApiType>(`/cards/pack?token=${token}&packName=${inputValue}`)
     },
     setPage(token: string, currentPage: number) {

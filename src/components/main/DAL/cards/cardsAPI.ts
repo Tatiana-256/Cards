@@ -46,7 +46,7 @@ export const cardsAPI = {
             .then(res => res.data)
     },
     searchCard(token: string | null, inputValue: string,) {
-        return instance.get<CardsResponseType>(`/cards/card?token=${token}&cardQuestion=${inputValue}`)
+        return instance.get<CardsResponseType>(`/cards/card?token=${token}&cardAnswer=${inputValue}`)
     },
 }
 
