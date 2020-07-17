@@ -1,4 +1,4 @@
-.regularButton, .deleteButton {
+.regularButton, .deleteButton, .smallButton, .bigButton {
     border: 1px solid transparent;
     box-shadow: none;
     cursor: pointer;
@@ -19,3 +19,14 @@
     background-color: #65a3be
 }
 
+.smallButton {
+    font-size: 12px;
+    width: 100px;
+    background-color: #65a3be
+}
+
+.bigButton{
+    font-size: 18px;
+    width: 240px;
+    background-color: #65a3be
+}

@@ -79,6 +79,7 @@ const Table: React.FC<ITableProps> = (
                             flexFlow: 'row',
                             alignItems: 'center',
                             justifyContent: 'space-between',
+                            padding: '16px',
                             ...rowStyle,
                         }}
                     >
