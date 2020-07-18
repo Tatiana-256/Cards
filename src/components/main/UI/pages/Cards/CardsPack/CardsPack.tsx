@@ -16,13 +16,15 @@ import Table, {ITableModel} from "../../../common/Table/Table";
 import {Paginator} from "../../../common/Paginator/Paginator";
 import {NavLink} from 'react-router-dom';
 import {ModuleUp} from "../../../common/moduls/buttonUp/buttonUp";
-import {UpdatePackModule} from "../../../common/moduls/windowModules/updatePackModule";
+import {UpdatePackModule} from "../../../common/moduls/windowModules/updatePackModule/updatePackModule";
+import {DeleteModule} from "../../../common/moduls/windowModules/deleteModule/deleteModule";
 
 
 const CardsPack = () => {
 
     const [value, setValue] = useState('');
-    const [showModule, setShowModule] = useState(false)
+    const [showUpdateModule, setShowUpdateModule] = useState(false)
+    const [showDeleteModule, setShowDeleteModule] = useState(false)
 
 
     const dispatch = useDispatch();
@@ -40,6 +42,9 @@ const CardsPack = () => {
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.currentTarget.value)
     }
+
+
+    // ____________ filters for packs__________________
 
     const searchByName = () => {
         return dispatch(showSearchedPack(value))
@@ -82,24 +87,55 @@ const CardsPack = () => {
             title: (index: number) => <div key={"buttons" + index}>Buttons</div>,
             render(dataItem: CardPackType, dataIndex: number) {
                 const onDeletePack = () => {
+                    debugger
                     dispatch(deleteCardPack(dataItem._id))
+                    setShowDeleteModule(false)
                 }
-                const onChangePack = () => {
-                    dispatch(changeCardPack(dataItem._id))
-                    setShowModule(false)
+                const onChangePack = (newPackName: string) => {
+                    debugger
+                    dispatch(changeCardPack(dataItem._id, newPackName))
+                    setShowUpdateModule(false)
                 }
+
+                console.log(dataItem)
+
                 return <>
                     <div key={dataIndex + dataItem._id} className={styles.buttons}>
-                        <Button onClick={onDeletePack} buttonClass={'deleteButton'}>Delete</Button>
-                        <Button onClick={() => setShowModule(true)}
-                                buttonClass={'regularButton'}>Update</Button>
-                        <NavLink to={`/cards/cards/${dataItem._id}`}><Button buttonClass={'regularButton'}>Show
-                            cards</Button></NavLink>
-                        <NavLink to=''><Button buttonClass={'regularButton'}>Learn</Button></NavLink>
+                        <Button
+                            onClick={() => setShowDeleteModule(true)}
+                            buttonClass={'deleteButton'}>
+                            Delete
+                        </Button>
+                        <Button
+                            onClick={() => setShowUpdateModule(true)}
+                            buttonClass={'regularButton'}>
+                            Update
+                        </Button>
+                        <NavLink to={`/cards/cards/${dataItem._id}`}>
+                            <Button buttonClass={'regularButton'}>
+                                Show cards
+                            </Button>
+                        </NavLink>
+                        <NavLink to=''>
+                            <Button buttonClass={'regularButton'}>
+                                Learn
+                            </Button>
+                        </NavLink>
                         <Button buttonClass={'regularButton'}>Add to basket</Button>
                     </div>
-                    <UpdatePackModule showModule={showModule} packName={dataItem.name} ChangePack={onChangePack}
-                                      backgroundOnClick={() => setShowModule(false)}/>
+                    <UpdatePackModule showModule={showUpdateModule}
+                                      packName={dataItem.name}
+                                      ChangePack={onChangePack}
+                                      backgroundOnClick={() => setShowUpdateModule(false)}
+                    />
+                    <DeleteModule
+                        showModule={showDeleteModule}
+                        moduleName={'pack'}
+                        onDeletePack={onDeletePack}
+                        backgroundOnClick={() => {
+                            setShowDeleteModule(false)
+                        }}
+                    />
                 </>
             }
         },

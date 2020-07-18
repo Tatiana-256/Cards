@@ -1,0 +1,14 @@
+.window{
+    text-align: center;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.buttons{
+    display: flex;
+    justify-content: space-between;
+    width: 268px;
+}

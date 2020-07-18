@@ -1,6 +1,4 @@
 import React, {CSSProperties, ReactNode} from 'react';
-import {CardPackType} from "../../../BLL/cardsRedusers/cardsPack-reduser";
-import {CardType} from "../../../BLL/cardsRedusers/cards-reduser";
 
 
 export interface ITableModel {
