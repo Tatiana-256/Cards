@@ -49,7 +49,8 @@ export const Paginator = () => {
             <div>
                 {pages
                     .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
-                    .map(p => <span
+                    .map((p, index) => <span
+                        key={index}
                         className={`${styles.pages} ${page === p && styles.selectedPage}`}
                         onClick={() => onPageChange(p)}
                     >{p}</span>)}

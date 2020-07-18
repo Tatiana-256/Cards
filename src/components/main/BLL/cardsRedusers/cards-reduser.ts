@@ -1,4 +1,4 @@
-import {AppStateType, baseThunkType, InferActionsTypes} from "../redux-store";
+import {baseThunkType, InferActionsTypes} from "../redux-store";
 import {cardsAPI, UpdatedCardType} from "../../DAL/cards/cardsAPI";
 import {getCookie, setCookie} from "../common/cookies";
 
@@ -68,17 +68,13 @@ export const cardsReducer = (state = initialState, action: CardsActionsTypes): I
         case "cardsReducer/DELETE_CARD":
             return {
                 ...state,
-                cards: state.cards.filter(card => {
-                    return card._id !== action.idPack
-                }),
+                cards: state.cards.filter(card => card._id !== action.idPack),
                 token: action.token
             }
         case "cardsReducer/UPDATE_CARD":
             return {
                 ...state,
-                cards: state.cards.filter(card => {
-                    return card._id === action.idCard ? {...card, ...action.newCard}: card
-                }),
+                cards: state.cards.map(card => card._id === action.idCard ? {...card, ...action.newCard}: card),
             }
         default:
             return state;
@@ -118,13 +114,12 @@ const actions = {
 
 type thunkType = baseThunkType<CardsActionsTypes>
 
-export const loadCardsData = (packId: string): thunkType => async (dispatch, getState: () => AppStateType) => {
+export const loadCardsData = (packId: string): thunkType => async (dispatch) => {
     try {
         dispatch(actions.isLoading(true))
         const token: string | null = getCookie('token')
         const res = await cardsAPI.getCards(token, packId)
         setCookie('token', res.token, Math.floor(res.tokenDeathTime / 1000) - 180);
-        debugger
         dispatch(actions.loadCards(res.cards, res.token))
     } catch
         (e) {

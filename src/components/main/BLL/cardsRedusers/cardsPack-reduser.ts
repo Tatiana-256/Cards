@@ -1,4 +1,4 @@
-import {AppStateType, baseThunkType, InferActionsTypes} from "../redux-store";
+import {baseThunkType, InferActionsTypes} from "../redux-store";
 import {cardsPackAPI} from "../../DAL/cards/cardsPackAPI";
 import {getCookie, setCookie} from "../common/cookies";
 
@@ -66,16 +66,13 @@ export const cardsPackReducer = (state = initialState, action: CardsPackActionsT
         case "cardsPackReducer/UPDATE_CARD_PACK":
             return {
                 ...state,
-                cards: state.cards.map(card => card._id === action.idPack ? {...action.newPack} : card),
+                cards: state.cards.map(card => card._id === action.idPack ? {...card, ...action.newPack} : card),
                 token: action.token
             }
         case "cardsPackReducer/DELETE_PACK":
             return {
                 ...state,
-                cards: state.cards.filter(card => {
-                    debugger
-                    return card._id !== action.idPack
-                }),
+                cards: state.cards.filter(card => card._id !== action.idPack),
                 token: action.token
             }
         case "cardsPackReducer/SEARCH_PACK":
@@ -144,7 +141,7 @@ const actions = {
 
 type thunkType = baseThunkType<CardsPackActionsTypes>
 
-export const loadCardsPackData = (): thunkType => async (dispatch, getState: () => AppStateType) => {
+export const loadCardsPackData = (): thunkType => async (dispatch) => {
     dispatch(actions.isLoading(true))
     try {
         const token: string | null = getCookie('token')
@@ -156,7 +153,7 @@ export const loadCardsPackData = (): thunkType => async (dispatch, getState: () 
     }
 }
 
-export const setNewPage = (pageCount: number, page?: number): thunkType => async (dispatch, getState: () => AppStateType) => {
+export const setNewPage = (pageCount: number, page?: number): thunkType => async (dispatch) => {
 
     try {
         const token: string | null = getCookie('token')
@@ -168,7 +165,7 @@ export const setNewPage = (pageCount: number, page?: number): thunkType => async
     }
 }
 
-export const addCardPack = (value: string): thunkType => async (dispatch, getState: () => AppStateType) => {
+export const addCardPack = (value: string): thunkType => async (dispatch) => {
 
     try {
         const token: string | null = getCookie('token')
@@ -180,20 +177,19 @@ export const addCardPack = (value: string): thunkType => async (dispatch, getSta
     }
 }
 
-export const changeCardPack = (idPack: string, newPackName: string): thunkType => async (dispatch, getState: () => AppStateType) => {
+export const changeCardPack = (idPack: string, newPackName: string): thunkType => async (dispatch) => {
 
     try {
         const token: string | null = getCookie('token')
         const res = await cardsPackAPI.updatePack(newPackName, idPack, token)
         setCookie('token', res.data.token, Math.floor(res.data.tokenDeathTime / 1000) - 180);
-        debugger
         dispatch(actions.changeCardPackSuccess(idPack, res.data.updatedCardsPack, res.data.token))
     } catch (e) {
         console.error(e.response.data.error)
     }
 }
 
-export const deleteCardPack = (idPack: string): thunkType => async (dispatch, getState: () => AppStateType) => {
+export const deleteCardPack = (idPack: string): thunkType => async (dispatch) => {
     try {
         const token: string | null = getCookie('token')
         const res = await cardsPackAPI.deletePack(idPack, token)
@@ -204,7 +200,7 @@ export const deleteCardPack = (idPack: string): thunkType => async (dispatch, ge
     }
 }
 
-export const showSearchedPack = (inputValue: string): thunkType => async (dispatch, getState: () => AppStateType) => {
+export const showSearchedPack = (inputValue: string): thunkType => async (dispatch) => {
     try {
         const token: string | null = getCookie('token')
         const res = await cardsPackAPI.searchPack(token, inputValue)
@@ -215,7 +211,7 @@ export const showSearchedPack = (inputValue: string): thunkType => async (dispat
     }
 
 }
-export const searchPackByFilter = (number?: string, filter?: string): thunkType => async (dispatch, getState: () => AppStateType) => {
+export const searchPackByFilter = (number?: string, filter?: string): thunkType => async (dispatch) => {
     try {
         const token: string | null = getCookie('token')
         const res = await cardsPackAPI.sortPacksByFilter(token, number, filter).then(d => d.data)

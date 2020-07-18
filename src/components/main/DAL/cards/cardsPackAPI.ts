@@ -47,7 +47,6 @@ export const cardsPackAPI = {
         })
     },
     updatePack(newPackName: string, idPack: string, token: string | null) {
-        debugger
         return instance.put<UpdateApiType>(`cards/pack`, {
             cardsPack: {
                 _id: idPack,

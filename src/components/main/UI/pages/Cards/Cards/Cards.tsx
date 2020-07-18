@@ -3,31 +3,17 @@ import styles from "../CardsPack/CardsPack.module.css";
 import Button from "../../../common/button/Button";
 import {useDispatch, useSelector} from 'react-redux';
 import {AppStateType} from '../../../../BLL/redux-store';
-import {
-    addCards,
-    CardType,
-    deleteCard,
-    loadCardsData,
-    searchCardByQuestion,
-    updateCard
-} from "../../../../BLL/cardsRedusers/cards-reduser";
+import {addCards, CardType, loadCardsData, searchCardByQuestion} from "../../../../BLL/cardsRedusers/cards-reduser";
 import {useParams} from "react-router-dom";
 import Table, {ITableModel} from "../../../common/Table/Table";
 import CustomInput from "../../../common/input/Input";
-import {DeleteModule} from "../../../common/moduls/windowModules/deleteModule/deleteModule";
-import {UpdateCardModule} from "../../../common/moduls/windowModules/updateCardModule/updateCardModule";
+import {ContainerModuleCards} from "./ContainerModuleCards/ContainerModuleCards";
 
 export const Cards = () => {
-
+    const {id} = useParams()
     const [value, setValue] = useState('');
 
-    const [showUpdateModule, setShowUpdateModule] = useState(false)
-    const [showDeleteModule, setShowDeleteModule] = useState(false)
-
-    const {id} = useParams()
-
     const dispatch = useDispatch()
-
     useEffect(() => {
         dispatch(loadCardsData(id))
     }, [dispatch])
@@ -38,10 +24,10 @@ export const Cards = () => {
         setValue(e.currentTarget.value)
     }
 
-
     const searchByQuestion = () => {
         return dispatch(searchCardByQuestion(value))
     }
+
 
     const model: Array<ITableModel> = [
         {
@@ -64,45 +50,8 @@ export const Cards = () => {
         },
         {
             title: (index: number) => <div key={"buttons" + index}>Buttons</div>,
-            render(dataItem: CardType, dataIndex: number) {
-                const onDeletePack = () => {
-                    dispatch(deleteCard(dataItem._id))
-                    setShowDeleteModule(false)
-                }
-                const onChangeCard = (question: string, answer: string) => {
-                    dispatch(updateCard(dataItem._id, question, answer))
-                    setShowUpdateModule(false)
-                }
-                return <div key={dataIndex + dataItem._id} className={styles.buttons}>
-                    <Button
-                        onClick={() => setShowDeleteModule(true)}
-                        buttonClass={'deleteButton'}
-                    >
-                        Delete
-                    </Button>
-                    <Button
-                        onClick={() => setShowUpdateModule(true)}
-                        buttonClass={'regularButton'}
-                    >
-                        Update
-                    </Button>
-                    <DeleteModule
-                        showModule={showDeleteModule}
-                        moduleName={'card'}
-                        onDeletePack={onDeletePack}
-                        backgroundOnClick={() => {
-                            setShowDeleteModule(false)
-                        }}
-                    />
-                    <UpdateCardModule
-                        showModule={showUpdateModule}
-                        cardQuestion={dataItem.question}
-                        cardAnswer={dataItem.answer}
-                        ChangeCard={onChangeCard}
-                        backgroundOnClick={() => setShowUpdateModule(false)}
-                    />
-
-                </div>
+            render: (dataItem: CardType, dataIndex: number) => {
+                return <ContainerModuleCards key={dataIndex + dataItem._id} dataItem={dataItem} dataIndex={dataIndex}/>
             }
         },
     ]

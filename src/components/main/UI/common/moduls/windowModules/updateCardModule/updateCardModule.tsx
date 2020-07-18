@@ -25,7 +25,6 @@ export const UpdateCardModule = (props: PropsType) => {
     }
 
     const changeCard = () => {
-        debugger
         props.ChangeCard(question, answer)
     }
 
