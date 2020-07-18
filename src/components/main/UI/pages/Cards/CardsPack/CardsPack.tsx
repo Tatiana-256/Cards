@@ -108,7 +108,8 @@ const CardsPack = () => {
                         </Button>
                         <Button
                             onClick={() => setShowUpdateModule(true)}
-                            buttonClass={'regularButton'}>
+                            buttonClass={'regularButton'}
+                        >
                             Update
                         </Button>
                         <NavLink to={`/cards/cards/${dataItem._id}`}>

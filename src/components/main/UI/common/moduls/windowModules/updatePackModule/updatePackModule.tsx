@@ -34,7 +34,6 @@ export const UpdatePackModule = (props: PropsType) => {
         <div className={styles.window}>
             <div style={{color: 'black'}}>Change pack`s name</div>
             <CustomInput
-                name={"Add new item"}
                 value={packName}
                 onChange={onchangeInput}
             />

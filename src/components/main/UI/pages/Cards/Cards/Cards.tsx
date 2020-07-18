@@ -14,10 +14,16 @@ import {
 import {useParams} from "react-router-dom";
 import Table, {ITableModel} from "../../../common/Table/Table";
 import CustomInput from "../../../common/input/Input";
+import {DeleteModule} from "../../../common/moduls/windowModules/deleteModule/deleteModule";
+import {UpdateCardModule} from "../../../common/moduls/windowModules/updateCardModule/updateCardModule";
+import {UpdatePackModule} from "../../../common/moduls/windowModules/updatePackModule/updatePackModule";
 
 export const Cards = () => {
 
     const [value, setValue] = useState('');
+
+    const [showUpdateModule, setShowUpdateModule] = useState(false)
+    const [showDeleteModule, setShowDeleteModule] = useState(false)
 
     const {id} = useParams()
 
@@ -45,7 +51,7 @@ export const Cards = () => {
                 return <div key={dataIndex + dataItem._id}>{dataItem.question}</div>
             }
         },
-         {
+        {
             title: (index: number) => <div key={"answer" + index}>Answer</div>,
             render(dataItem: CardType, dataIndex: number) {
                 return <div key={dataIndex + dataItem._id}>{dataItem.answer}</div>
@@ -62,21 +68,48 @@ export const Cards = () => {
             render(dataItem: CardType, dataIndex: number) {
                 const onDeletePack = () => {
                     dispatch(deleteCard(dataItem._id))
+                    setShowDeleteModule(false)
                 }
-                const onChangePack = () => {
-                    dispatch(updateCard(dataItem._id))
+                const onChangeCard = (question: string, answer: string) => {
+                    dispatch(updateCard(dataItem._id, question, answer))
                 }
                 return <div key={dataIndex + dataItem._id} className={styles.buttons}>
-                    <Button onClick={onDeletePack} buttonClass={'deleteButton'}>Delete</Button>
-                    <Button onClick={onChangePack} buttonClass={'regularButton'}>Update</Button>
+                    <Button
+                        onClick={() => setShowDeleteModule(true)}
+                        buttonClass={'deleteButton'}
+                    >
+                        Delete
+                    </Button>
+                    <Button
+                        onClick={() => setShowUpdateModule(true)}
+                        buttonClass={'regularButton'}
+                    >
+                        Update
+                    </Button>
+                    <DeleteModule
+                        showModule={showDeleteModule}
+                        moduleName={'card'}
+                        onDeletePack={onDeletePack}
+                        backgroundOnClick={() => {
+                            setShowDeleteModule(false)
+                        }}
+                    />
+                    <UpdateCardModule
+                        showModule={showUpdateModule}
+                        cardQuestion={dataItem.question}
+                        cardAnswer={dataItem.answer}
+                        ChangeCard={onChangeCard}
+                        backgroundOnClick={() => setShowUpdateModule(false)}
+                    />
+
                 </div>
             }
         },
     ]
 
- const addCardsButtonClick = () => {
-     dispatch(addCards(id))
- }
+    const addCardsButtonClick = () => {
+        dispatch(addCards(id))
+    }
     return <div>
         {/*{isLoading ? <Preloader/> :*/}
         <div className={styles.searchTyping}>
