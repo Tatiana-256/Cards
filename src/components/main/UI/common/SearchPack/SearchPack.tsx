@@ -8,22 +8,30 @@ import Button from "../button/Button";
 
 const SearchPack = () => {
 
+    const [search, setSearch] = useState('');
     const [value, setValue] = useState('');
     const dispatch = useDispatch();
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setSearch(e.currentTarget.value)
+    }
+    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.currentTarget.value)
     }
 
     const addCardsButtonClick = () => {
-        dispatch(addCardPack(value))
-        setValue('')
+        if (!value) {
+            alert("Введите название!!!")
+        } else {
+            dispatch(addCardPack(value))
+            setValue('')
+        }
     }
 
     // ____________ filters for packs__________________
 
     const searchByName = () => {
-        return dispatch(showSearchedPack(value))
+        return dispatch(showSearchedPack(search))
     }
     const searchAtoZ = () => {
         return dispatch(searchPackByFilter('1', 'name'))
@@ -44,7 +52,7 @@ const SearchPack = () => {
         <>
             <div className={styles.head}>
                 <div className={styles.searchTyping}>
-                    <CustomInput onChange={onChangeHandler}/>
+                    <CustomInput onChange={onChangeHandler} value={search}/>
                     <Button buttonClass={'regularButton'} onClick={searchByName}>Search</Button>
                 </div>
                 <div className={styles.searchTyping}>
@@ -56,7 +64,7 @@ const SearchPack = () => {
             </div>
             <div className={styles.head}>
                 <div className={styles.searchTyping}>
-                    <div><CustomInput onChange={onChangeHandler}/></div>
+                    <div><CustomInput onChange={onChange} value={value}/></div>
                     <Button onClick={addCardsButtonClick} buttonClass={'bigButton'}>Add new cards pack</Button>
                 </div>
             </div>

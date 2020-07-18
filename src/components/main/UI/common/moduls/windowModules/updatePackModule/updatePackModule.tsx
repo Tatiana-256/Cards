@@ -20,7 +20,6 @@ export const UpdatePackModule = (props: PropsType) => {
     }
 
     const changePack = () => {
-        debugger
         props.ChangePack(packName)
     }
 

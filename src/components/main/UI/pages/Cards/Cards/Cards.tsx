@@ -11,6 +11,8 @@ import {ContainerModuleCards} from "./ContainerModuleCards/ContainerModuleCards"
 
 export const Cards = () => {
     const {id} = useParams()
+    const [valueSerch, setValueSerch] = useState('');
+
     const [value, setValue] = useState('');
 
     const dispatch = useDispatch()
@@ -21,12 +23,18 @@ export const Cards = () => {
     const cards = useSelector<AppStateType, Array<CardType>>(state => state.cards.cards)
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setValueSerch(e.currentTarget.value)
+    }
+
+    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.currentTarget.value)
     }
 
     const searchByQuestion = () => {
-        return dispatch(searchCardByQuestion(value))
+        dispatch(searchCardByQuestion(valueSerch))
     }
+
+
 
 
     const model: Array<ITableModel> = [
@@ -57,16 +65,18 @@ export const Cards = () => {
     ]
 
     const addCardsButtonClick = () => {
-        dispatch(addCards(id))
+        dispatch(addCards(id, value))
+        setValue("")
     }
     return <div>
         {/*{isLoading ? <Preloader/> :*/}
         <div className={styles.searchTyping}>
-            <CustomInput onChange={onChangeHandler}/>
+            <CustomInput onChange={onChangeHandler} value={valueSerch}/>
             <Button buttonClass={'regularButton'} onClick={searchByQuestion}>Search</Button>
         </div>
         <div className={styles.container}>
             <div className={styles.head}>
+                <CustomInput onChange={onChange} value={value}/>
                 <Button buttonClass={'regularButton'} onClick={addCardsButtonClick}>Add</Button>
             </div>
             <Table model={model} data={cards}/>
