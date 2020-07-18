@@ -154,10 +154,10 @@ export const deleteCard = (cardId: string): thunkType => async (dispatch) => {
     }
 };
 
-export const updateCard = (cardId: string): thunkType => async (dispatch) => {
+export const updateCard = (cardId: string, question: string, answer: string): thunkType => async (dispatch) => {
     try {
         const token: string | null = getCookie('token')
-        const data = await cardsAPI.updateCard(cardId, token);
+        const data = await cardsAPI.updateCard(cardId, token, question, answer);
         setCookie('token', data.token, Math.floor(data.tokenDeathTime / 1000) - 180);
         dispatch(actions.updateCardSuccess(data.updatedCard, data.updatedCard._id, data.token));
     } catch (e) {

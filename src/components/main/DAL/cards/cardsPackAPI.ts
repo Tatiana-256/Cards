@@ -46,11 +46,12 @@ export const cardsPackAPI = {
             token
         })
     },
-    updatePack(idPack: string, token: string | null, newName: string = "Taня") {
+    updatePack(newPackName: string, idPack: string, token: string | null) {
+        debugger
         return instance.put<UpdateApiType>(`cards/pack`, {
             cardsPack: {
                 _id: idPack,
-                name: newName
+                name: newPackName
             },
             token
         })

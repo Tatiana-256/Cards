@@ -1,4 +1,4 @@
-import React, {DetailedHTMLProps, InputHTMLAttributes, ChangeEvent} from 'react';
+import React, {DetailedHTMLProps, InputHTMLAttributes} from 'react';
 import styles from './Input.module.css';
 
 export type InputPropsType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>

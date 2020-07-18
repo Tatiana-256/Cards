@@ -34,9 +34,9 @@ export const cardsAPI = {
         })
             .then(res => res.data)
     },
-    updateCard(cardId: string, token: string | null) {
+    updateCard(cardId: string, token: string | null, question: string, answer: string) {
         return instance.put<PostPutCardsType>('/cards/card', {
-            card: {_id: cardId, answer: "Таня", grade: 0},
+            card: {_id: cardId, answer: answer, question: question, grade: 0},
             token
         })
             .then(res => res.data)

@@ -50,7 +50,7 @@ export const Module = (props: PropsType) => {
                     alignItems: 'center',
                     justifyContent: 'center',
 
-                    background: '#65a3be',
+                    background: 'white',
                     borderRadius: '30px',
                     color: 'white',
                     zIndex: 1,
