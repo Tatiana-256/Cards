@@ -1,16 +1,14 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../../../BLL/redux-store";
-import CustomInput from "../../../common/input/Input";
 import Button from "../../../common/button/Button";
 import styles from './CardsPack.module.css'
 import Preloader from "../../../common/Preloader/Preloder";
 import {
-    addCardPack,
     CardPackType,
     changeCardPack,
     deleteCardPack,
-    loadCardsPackData, searchPackByFilter, showSearchedPack,
+    loadCardsPackData
 } from '../../../../BLL/cardsRedusers/cardsPack-reduser';
 import Table, {ITableModel} from "../../../common/Table/Table";
 import {Paginator} from "../../../common/Paginator/Paginator";
@@ -18,14 +16,13 @@ import {NavLink} from 'react-router-dom';
 import {ModuleUp} from "../../../common/moduls/buttonUp/buttonUp";
 import {UpdatePackModule} from "../../../common/moduls/windowModules/updatePackModule/updatePackModule";
 import {DeleteModule} from "../../../common/moduls/windowModules/deleteModule/deleteModule";
+import SearchPack from "../../../common/SearchPack/SearchPack";
 
 
 const CardsPack = () => {
 
-    const [value, setValue] = useState('');
     const [showUpdateModule, setShowUpdateModule] = useState(false)
     const [showDeleteModule, setShowDeleteModule] = useState(false)
-
 
     const dispatch = useDispatch();
     const {isLoading, cards} = useSelector((store: AppStateType) => store.cardsPack)
@@ -33,36 +30,6 @@ const CardsPack = () => {
     useEffect(() => {
         dispatch(loadCardsPackData())
     }, [dispatch]);
-
-    const addCardsButtonClick = () => {
-        dispatch(addCardPack(value))
-        setValue('')
-    }
-
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setValue(e.currentTarget.value)
-    }
-
-
-    // ____________ filters for packs__________________
-
-    const searchByName = () => {
-        return dispatch(showSearchedPack(value))
-    }
-    const searchAtoZ = () => {
-        return dispatch(searchPackByFilter('1', 'name'))
-    }
-    const searchZtoA = () => {
-        return dispatch(searchPackByFilter('-1', 'name'))
-    }
-
-    const searchNew = () => {
-        return dispatch(searchPackByFilter('1', 'created'))
-    }
-    const searchOlder = () => {
-        return dispatch(searchPackByFilter('-1', 'created'))
-    }
-
 
     const model: Array<ITableModel> = [
         {
@@ -145,25 +112,7 @@ const CardsPack = () => {
     return <div>
         {isLoading ? <Preloader/> :
             <div className={styles.container}>
-                <div className={styles.head}>
-                    <div className={styles.searchTyping}>
-                        <CustomInput onChange={onChangeHandler}/>
-                        <Button buttonClass={'regularButton'} onClick={searchByName}>Search</Button>
-                    </div>
-
-                    <div className={styles.searchTyping}>
-                        <Button buttonClass={'smallButton'} onClick={searchAtoZ}>Search A-Z </Button>
-                        <Button buttonClass={'smallButton'} onClick={searchZtoA}>Search Z-A </Button>
-                        <Button buttonClass={'smallButton'} onClick={searchNew}>Search by new </Button>
-                        <Button buttonClass={'smallButton'} onClick={searchOlder}>Search by oldest </Button>
-                    </div>
-                </div>
-                <div className={styles.head}>
-                    <div className={styles.searchTyping}>
-                        <div><CustomInput onChange={onChangeHandler}/></div>
-                        <Button onClick={addCardsButtonClick} buttonClass={'bigButton'}>Add new cards pack</Button>
-                    </div>
-                </div>
+                <SearchPack/>
                 <Table model={model} data={cards}/>
                 <ModuleUp/>
                 <Paginator/>

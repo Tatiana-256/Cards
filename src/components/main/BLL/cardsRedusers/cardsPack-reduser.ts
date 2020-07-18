@@ -70,10 +70,12 @@ export const cardsPackReducer = (state = initialState, action: CardsPackActionsT
                 token: action.token
             }
         case "cardsPackReducer/DELETE_PACK":
-            debugger
             return {
                 ...state,
-                cards: state.cards.filter(card => card._id !== action.idPack),
+                cards: state.cards.filter(card => {
+                    debugger
+                    return card._id !== action.idPack
+                }),
                 token: action.token
             }
         case "cardsPackReducer/SEARCH_PACK":
@@ -181,11 +183,10 @@ export const addCardPack = (value: string): thunkType => async (dispatch, getSta
 export const changeCardPack = (idPack: string, newPackName: string): thunkType => async (dispatch, getState: () => AppStateType) => {
 
     try {
-
         const token: string | null = getCookie('token')
-        debugger
         const res = await cardsPackAPI.updatePack(newPackName, idPack, token)
         setCookie('token', res.data.token, Math.floor(res.data.tokenDeathTime / 1000) - 180);
+        debugger
         dispatch(actions.changeCardPackSuccess(idPack, res.data.updatedCardsPack, res.data.token))
     } catch (e) {
         console.error(e.response.data.error)
@@ -193,7 +194,6 @@ export const changeCardPack = (idPack: string, newPackName: string): thunkType =
 }
 
 export const deleteCardPack = (idPack: string): thunkType => async (dispatch, getState: () => AppStateType) => {
-    debugger
     try {
         const token: string | null = getCookie('token')
         const res = await cardsPackAPI.deletePack(idPack, token)

@@ -1,0 +1,27 @@
+.searchTyping, .head {
+    display: flex;
+    height: 60px;
+    width: 90%;
+    align-items: center;
+    justify-content: space-around;
+
+}
+
+.head {
+    border-radius: 5px;
+    margin-top: 10px;
+    border: 1px solid #343434;
+}
+
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 170px;
+}
+
+.buttons .regularButton {
+    height: 20px;
+}
+
