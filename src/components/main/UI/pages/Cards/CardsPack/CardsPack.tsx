@@ -64,8 +64,6 @@ const CardsPack = () => {
                     setShowUpdateModule(false)
                 }
 
-                console.log(dataItem)
-
                 return <>
                     <div key={dataIndex + dataItem._id} className={styles.buttons}>
                         <Button

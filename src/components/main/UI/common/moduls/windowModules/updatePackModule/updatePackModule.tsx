@@ -13,8 +13,6 @@ type PropsType = {
 
 export const UpdatePackModule = (props: PropsType) => {
 
-    console.log(props)
-
     const [packName, setPackName] = useState(props.packName)
 
     const onchangeInput = (e: ChangeEvent<HTMLInputElement>) => {
