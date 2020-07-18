@@ -2,7 +2,7 @@ import React, {ChangeEvent, useState} from 'react';
 import {Module} from "../UniversalModule";
 import CustomInput from "../../../input/Input";
 import Button from "../../../button/Button";
-import styles from './updatePack.module.css'
+import styles from '../updatePackModule/updatePack.module.css'
 
 type PropsType = {
     showModule: boolean,
@@ -14,8 +14,8 @@ type PropsType = {
 
 export const UpdateCardModule = (props: PropsType) => {
 
-    const [question, setQuestion] = useState('');
-    const [answer, setAnswer] = useState('');
+    const [question, setQuestion] = useState(props.cardQuestion);
+    const [answer, setAnswer] = useState(props.cardAnswer);
 
     const onchangeQuestionInput = (e: ChangeEvent<HTMLInputElement>) => {
         setQuestion(e.currentTarget.value)
@@ -37,12 +37,12 @@ export const UpdateCardModule = (props: PropsType) => {
         <div className={styles.window}>
             <div style={{color: 'black'}}>Change card question</div>
             <CustomInput
-                value={props.cardQuestion}
+                value={question}
                 onChange={onchangeQuestionInput}
             />
             <div style={{color: 'black'}}>Change card answer</div>
             <CustomInput
-                value={props.cardAnswer}
+                value={answer}
                 onChange={onchangeAnswerInput}
             />
             <div className={styles.buttons}>

@@ -16,7 +16,6 @@ import Table, {ITableModel} from "../../../common/Table/Table";
 import CustomInput from "../../../common/input/Input";
 import {DeleteModule} from "../../../common/moduls/windowModules/deleteModule/deleteModule";
 import {UpdateCardModule} from "../../../common/moduls/windowModules/updateCardModule/updateCardModule";
-import {UpdatePackModule} from "../../../common/moduls/windowModules/updatePackModule/updatePackModule";
 
 export const Cards = () => {
 
@@ -72,6 +71,7 @@ export const Cards = () => {
                 }
                 const onChangeCard = (question: string, answer: string) => {
                     dispatch(updateCard(dataItem._id, question, answer))
+                    setShowUpdateModule(false)
                 }
                 return <div key={dataIndex + dataItem._id} className={styles.buttons}>
                     <Button
