@@ -11,9 +11,10 @@ import {ContainerModuleCards} from "./ContainerModuleCards/ContainerModuleCards"
 
 export const Cards = () => {
     const {id} = useParams()
-    const [valueSerch, setValueSerch] = useState('');
+    const [valueAnswerSearch, setAnswerValueSearch] = useState('');
+    const [valueQuestionSearch, setQuestionValueSearch] = useState('');
 
-    const [value, setValue] = useState('');
+    const [valueSearch, setValueSearch] = useState('');
 
     const dispatch = useDispatch()
     useEffect(() => {
@@ -23,18 +24,19 @@ export const Cards = () => {
     const cards = useSelector<AppStateType, Array<CardType>>(state => state.cards.cards)
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setValueSerch(e.currentTarget.value)
+        setValueSearch(e.currentTarget.value)
     }
 
-    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setValue(e.currentTarget.value)
+    const onChangeQuestion = (e: ChangeEvent<HTMLInputElement>) => {
+        setQuestionValueSearch(e.currentTarget.value)
+    }
+    const onChangeAnswer = (e: ChangeEvent<HTMLInputElement>) => {
+        setAnswerValueSearch(e.currentTarget.value)
     }
 
     const searchByQuestion = () => {
-        dispatch(searchCardByQuestion(valueSerch))
+        dispatch(searchCardByQuestion(valueAnswerSearch))
     }
-
-
 
 
     const model: Array<ITableModel> = [
@@ -65,18 +67,22 @@ export const Cards = () => {
     ]
 
     const addCardsButtonClick = () => {
-        dispatch(addCards(id, value))
-        setValue("")
+        dispatch(addCards(id, valueQuestionSearch, valueAnswerSearch))
+        setAnswerValueSearch("")
+        setQuestionValueSearch("")
     }
     return <div>
         {/*{isLoading ? <Preloader/> :*/}
         <div className={styles.searchTyping}>
-            <CustomInput onChange={onChangeHandler} value={valueSerch}/>
+            <CustomInput onChange={onChangeHandler} value={valueSearch}/>
             <Button buttonClass={'regularButton'} onClick={searchByQuestion}>Search</Button>
         </div>
         <div className={styles.container}>
             <div className={styles.head}>
-                <CustomInput onChange={onChange} value={value}/>
+                Put card question
+                <CustomInput onChange={onChangeQuestion} value={valueQuestionSearch}/>
+                Put card answer
+                <CustomInput onChange={onChangeAnswer} value={valueAnswerSearch}/>
                 <Button buttonClass={'regularButton'} onClick={addCardsButtonClick}>Add</Button>
             </div>
             <Table model={model} data={cards}/>
