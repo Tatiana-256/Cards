@@ -127,10 +127,10 @@ export const loadCardsData = (packId: string): thunkType => async (dispatch) => 
     }
 }
 
-export const addCards = (packId: string, answer: string | number): thunkType => async (dispatch) => {
+export const addCards = (packId: string, question: string | number, answer: string | number): thunkType => async (dispatch) => {
     try {
         const token: string | null = getCookie('token')
-        const data = await cardsAPI.addCard(token, packId, answer);
+        const data = await cardsAPI.addCard(token, packId, question, answer);
         setCookie('token', data.token, Math.floor(data.tokenDeathTime / 1000) - 180);
         await dispatch(actions.addCardsSuccess(data.newCard, data.token));
     } catch (e) {
