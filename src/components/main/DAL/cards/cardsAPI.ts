@@ -27,9 +27,9 @@ export const cardsAPI = {
                 }
             )
     },
-    addCard(token: string | null, packId: string, answer: string | number) {
+    addCard(token: string | null, packId: string, question: string | number, answer: string | number) {
         return instance.post<PostCardResponseType>('/cards/card', {
-            card: {cardsPack_id: packId, answer},
+            card: {cardsPack_id: packId, question: question, answer: answer},
             token
         })
             .then(res => res.data)
