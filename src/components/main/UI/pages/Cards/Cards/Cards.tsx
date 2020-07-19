@@ -79,11 +79,16 @@ export const Cards = () => {
         </div>
         <div className={styles.container}>
             <div className={styles.head}>
-                Put card question
-                <CustomInput onChange={onChangeQuestion} value={valueQuestionSearch}/>
-                Put card answer
-                <CustomInput onChange={onChangeAnswer} value={valueAnswerSearch}/>
-                <Button buttonClass={'regularButton'} onClick={addCardsButtonClick}>Add</Button>
+                <div className={styles.card}>
+                    Question
+                    <CustomInput onChange={onChangeQuestion} value={valueQuestionSearch}
+                                 placeholder={"Put card question"}/>
+                </div>
+                <div className={styles.card}>
+                    Answer
+                    <CustomInput onChange={onChangeAnswer} value={valueAnswerSearch} placeholder={'Put card answer'}/>
+                </div>
+                    <Button buttonClass={'regularButton'} onClick={addCardsButtonClick}>Add</Button>
             </div>
             <Table model={model} data={cards}/>
         </div>
