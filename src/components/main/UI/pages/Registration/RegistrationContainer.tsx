@@ -4,6 +4,7 @@ import Registration from "./Registration";
 import {useDispatch, useSelector} from 'react-redux';
 import {registration} from "../../../BLL/register-reduser";
 import {AppStateType} from "../../../BLL/redux-store";
+import Loader from "../../common/loader/LoaderComponent";
 
 
 const RegistrationContainer = () => {
@@ -32,11 +33,13 @@ const RegistrationContainer = () => {
     if (isSuccess) {
         return <Redirect to={'/login'}/>
     }
-    return (<Registration email={email} setEmail={setEmail} password={password} setPassword={setPassword}
+    return <>
+        {isLoading ? <Loader/> :
+            <Registration email={email} setEmail={setEmail} password={password} setPassword={setPassword}
                           passwordRepeat={passwordRepeat} setPasswordRepeat={setPasswordRepeat}
                           isPasswordSame={isPasswordSame}
-                          addUser={addUser} isLoading={isLoading} isError={isError}/>
-    )
+                          addUser={addUser} isLoading={isLoading} isError={isError}/>}
+    </>
 }
 
 export default RegistrationContainer

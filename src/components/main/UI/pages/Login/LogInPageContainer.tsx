@@ -5,6 +5,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import LoginPage from "./LogInPage";
 import {logIn} from "../../../BLL/login-reduser";
 import {AppStateType} from "../../../BLL/redux-store";
+import Loader from "../../common/loader/LoaderComponent";
 
 
 const LoginPageContainer = () => {
@@ -26,15 +27,18 @@ const LoginPageContainer = () => {
     if (isSuccess) {
         return <Redirect to={"/"}/>
     } else {
-        return (<LoginPage email={email}
-                           setEmail={setEmail}
-                           password={password}
-                           setPassword={setPassword}
-                           isError={isError}
-                           rememberMe={rememberMe}
-                           setRememberMe={setRememberMe}
-                           setUser={setUser}
-                           isLoading={isLoading}/>)
+        return <>
+            {isLoading ? <Loader/> : <LoginPage email={email}
+                                                setEmail={setEmail}
+                                                password={password}
+                                                setPassword={setPassword}
+                                                isError={isError}
+                                                rememberMe={rememberMe}
+                                                setRememberMe={setRememberMe}
+                                                setUser={setUser}
+                                                isLoading={isLoading}/>
+            }
+        </>
 
     }
 }

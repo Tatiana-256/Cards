@@ -64,8 +64,8 @@ const actions = {
 type thunkType = baseThunkType<LoginActionType>
 
 export const logIn = (email: string, password: string, rememberMe: boolean): thunkType => async (dispatch, getState: () => AppStateType) => {
-    dispatch(actions.isLoading(true))
     try {
+        dispatch(actions.isLoading(true))
         const res = await authAPI.logIn(email, password, rememberMe)
             .then(data => data.data)
         setTokenInCookie(res.token, res.tokenDeathTime)
