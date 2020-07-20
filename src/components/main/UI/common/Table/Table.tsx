@@ -33,12 +33,11 @@ const Table: React.FC<ITableProps> = (
     return (
         <div
             style={{
-                margin: '0 10px',
                 display: 'flex',
                 flexFlow: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: '100%',
+                width: '85%',
                 ...tableStyle,
             }}
         >

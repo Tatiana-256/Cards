@@ -24,3 +24,10 @@
     height: 20px;
 }
 
+.searchFilter {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    justify-content: space-around;
+    height: 200px;
+}

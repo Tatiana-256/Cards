@@ -10,3 +10,23 @@
     text-decoration: none;
     color: white;
 }
+
+@media screen and (max-width: 618px) {
+    .header {
+    font-size: 14px;
+    }
+
+}
+
+@media screen and (max-width: 535px) {
+    .header {
+    font-size: 12px;
+    }
+
+}
+@media screen and (max-width: 419px) {
+    .header {
+    font-size: 10px;
+    }
+
+}

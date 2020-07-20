@@ -15,3 +15,11 @@
     background: #fbfbfb;
     transition: .5s;
 }
+
+
+@media screen and (max-width: 588px) {
+    .inputClass {
+        font-size: 10px;
+        width: 200px;
+    }
+}
