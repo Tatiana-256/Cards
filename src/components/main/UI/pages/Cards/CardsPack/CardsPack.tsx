@@ -13,6 +13,7 @@ import {ModuleUp} from "../../../common/moduls/buttonUp/buttonUp";
 import SearchPack from "../../../common/SearchPack/SearchPack";
 import {ContainerModulePack} from "./ContainerModulePack/ContainerModulePack";
 import Loader from '../../../common/loader/LoaderComponent';
+import {CardsPackFilters} from "./CardsPackFilters";
 
 const CardsPack = () => {
 
@@ -44,7 +45,7 @@ const CardsPack = () => {
         },
         {
             title: (index: number) => <div key={"buttons" + index}>Buttons</div>,
-            render:(dataItem: CardPackType, dataIndex: number) => {
+            render: (dataItem: CardPackType, dataIndex: number) => {
                 return <ContainerModulePack key={dataIndex + dataItem._id} dataItem={dataItem} dataIndex={dataIndex}/>
             }
         },
@@ -54,7 +55,10 @@ const CardsPack = () => {
         {isLoading ? <Loader/> :
             <div className={styles.container}>
                 <SearchPack/>
-                <Table model={model} data={cards}/>
+                <div style={{display: "flex", width:"100%"}}>
+                    <Table model={model} data={cards}/>
+                    <CardsPackFilters/>
+                </div>
                 <ModuleUp/>
                 <Paginator/>
             </div>
