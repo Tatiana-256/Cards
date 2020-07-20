@@ -8,6 +8,7 @@ import {useParams} from "react-router-dom";
 import Table, {ITableModel} from "../../../common/Table/Table";
 import CustomInput from "../../../common/input/Input";
 import {ContainerModuleCards} from "./ContainerModuleCards/ContainerModuleCards";
+import Loader from "../../../common/loader/LoaderComponent";
 
 export const Cards = () => {
     const {id} = useParams()
@@ -22,6 +23,7 @@ export const Cards = () => {
     }, [dispatch])
 
     const cards = useSelector<AppStateType, Array<CardType>>(state => state.cards.cards)
+    const isLoading = useSelector<AppStateType, boolean>(state => state.cards.isLoading)
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setValueSearch(e.currentTarget.value)
@@ -33,6 +35,7 @@ export const Cards = () => {
     const onChangeAnswer = (e: ChangeEvent<HTMLInputElement>) => {
         setAnswerValueSearch(e.currentTarget.value)
     }
+
 
     const searchByQuestion = () => {
         dispatch(searchCardByQuestion(valueAnswerSearch))
@@ -72,26 +75,29 @@ export const Cards = () => {
         setQuestionValueSearch("")
     }
     return <div>
-        {/*{isLoading ? <Preloader/> :*/}
-        <div className={styles.searchTyping}>
-            <CustomInput onChange={onChangeHandler} value={valueSearch}/>
-            <Button buttonClass={'regularButton'} onClick={searchByQuestion}>Search</Button>
-        </div>
-        <div className={styles.container}>
-            <div className={styles.head}>
-                <div className={styles.card}>
-                    Question
-                    <CustomInput onChange={onChangeQuestion} value={valueQuestionSearch}
-                                 placeholder={"Put card question"}/>
+        {isLoading ? <Loader/> :
+            <div>
+                <div className={styles.searchTyping}>
+                    <CustomInput onChange={onChangeHandler} value={valueSearch}/>
+                    <Button buttonClass={'regularButton'} onClick={searchByQuestion}>Search</Button>
                 </div>
-                <div className={styles.card}>
-                    Answer
-                    <CustomInput onChange={onChangeAnswer} value={valueAnswerSearch} placeholder={'Put card answer'}/>
+                <div className={styles.container}>
+                    <div className={styles.head}>
+                        <div className={styles.card}>
+                            Question
+                            <CustomInput onChange={onChangeQuestion} value={valueQuestionSearch}
+                                         placeholder={"Put card question"}/>
+                        </div>
+                        <div className={styles.card}>
+                            Answer
+                            <CustomInput onChange={onChangeAnswer} value={valueAnswerSearch}
+                                         placeholder={'Put card answer'}/>
+                        </div>
+                        <Button buttonClass={'regularButton'} onClick={addCardsButtonClick}>Add</Button>
+                    </div>
+                    <Table model={model} data={cards}/>
                 </div>
-                    <Button buttonClass={'regularButton'} onClick={addCardsButtonClick}>Add</Button>
             </div>
-            <Table model={model} data={cards}/>
-        </div>
-        {/*}*/}
+        }
     </div>
 }

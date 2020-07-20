@@ -12,6 +12,7 @@ import {Paginator} from "../../../common/Paginator/Paginator";
 import {ModuleUp} from "../../../common/moduls/buttonUp/buttonUp";
 import SearchPack from "../../../common/SearchPack/SearchPack";
 import {ContainerModulePack} from "./ContainerModulePack/ContainerModulePack";
+import Loader from '../../../common/loader/LoaderComponent';
 
 const CardsPack = () => {
 
@@ -50,7 +51,7 @@ const CardsPack = () => {
     ]
 
     return <div>
-        {isLoading ? <Preloader/> :
+        {isLoading ? <Loader/> :
             <div className={styles.container}>
                 <SearchPack/>
                 <Table model={model} data={cards}/>
