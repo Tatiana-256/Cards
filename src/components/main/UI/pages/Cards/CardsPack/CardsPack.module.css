@@ -19,6 +19,7 @@
     margin-top: 10px;
     border: 1px solid #343434;
     height: 100px;
+
 }
 
 .cards {
@@ -46,4 +47,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+
+@media screen and (max-width: 860px) {
+    .head {
+        height: 175px;
+        display: flex;
+        flex-direction: column;
+    }
 }
