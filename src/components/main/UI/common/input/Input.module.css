@@ -11,7 +11,7 @@
 }
 
 
-.inputClass:focus{
+.inputClass:focus {
     background: #fbfbfb;
     transition: .5s;
 }

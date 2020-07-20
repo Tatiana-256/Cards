@@ -46,7 +46,7 @@
 }
 
 
-@media screen and (max-width: 530px) {
+@media screen and (max-width: 588px) {
     .smallButton {
         font-size: 9px;
         height: 26px;
@@ -56,12 +56,5 @@
     .bigButton, .regularButton, .deleteButton {
         font-size: 13px;
         width: 100px;
-    }
-}
-
-@media screen and (max-width: 530px) {
-    .bigButton, .regularButton, .deleteButton {
-        font-size: 12px;
-        width: 90px;
     }
 }
