@@ -1,0 +1,20 @@
+.container {
+    height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.module {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 200px;
+}
+
+.buttons{
+    display: flex;
+    justify-content: space-evenly;
+    width: 550px;
+}

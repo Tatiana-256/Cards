@@ -40,7 +40,8 @@ export const ModuleUp: React.FC<IModalUp> = ({speed = 10}) => {
                 modalOnClick={scroll}
                 modalStyle={{
                     top: '90vh',
-                    left: '1100px'
+                    left: '1100px',
+                    background:'#65a3be'
                 }}
                 show={show}
             >
