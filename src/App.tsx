@@ -9,6 +9,7 @@ import LoginPageContainer from "./components/main/UI/pages/Login/LogInPageContai
 import RegistrationContainer from './components/main/UI/pages/Registration/RegistrationContainer';
 import CardsPack from "./components/main/UI/pages/Cards/CardsPack/CardsPack";
 import {Cards} from "./components/main/UI/pages/Cards/Cards/Cards";
+import {LearnCards} from './components/main/UI/pages/LearnCards/LearnCards';
 
 
 const App = () => {
@@ -21,6 +22,7 @@ const App = () => {
             <Route exact path="/registration" component={RegistrationContainer}/>
             <Route exact path="/refreshPassword" component={ForgotPasswordContainer}/>
             <Route path="/set-new-password/:id" component={NewPasswordContainer}/>
+            <Route path="/learn-cards" component={LearnCards}/>
             <Route exact path="/" component={Profile}/>
         </div>
     );

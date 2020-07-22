@@ -9,10 +9,12 @@ const Header = () => {
     const {isSuccess} = useSelector((store: AppStateType) => store.login)
 
     return <div className={styles.header}>
-        <NavLink to="/" className={styles.rout}> Profile </NavLink>
-        <NavLink to="/cards/pack" className={styles.rout}> Cards </NavLink>
         {isSuccess ?
-            <div className={styles.rout}> LogOut </div>
+            <>  <NavLink to="/" className={styles.rout}> Profile </NavLink>
+                <NavLink to="/cards/pack" className={styles.rout}> Cards </NavLink>
+                <NavLink to="/learn-cards" className={styles.rout}> Learn cards </NavLink>
+                <div className={styles.rout}> LogOut</div>
+            </>
             :
             <>
                 <NavLink to="/login" className={styles.rout}> Login </NavLink>
