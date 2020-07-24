@@ -20,7 +20,7 @@ export const Cards = () => {
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(loadCardsData(id))
-    }, [dispatch])
+    }, [dispatch, id])
 
     const cards = useSelector<AppStateType, Array<CardType>>(state => state.cards.cards)
     const isLoading = useSelector<AppStateType, boolean>(state => state.cards.isLoading)

@@ -44,7 +44,7 @@ export const LearnCardsContainer = () => {
             dispatch(loadCardsData(id))
             setFirst(false)
         }
-        if (cards.length > 0) setCard(cards[0])
+        if (cards.length > 0) getCard(cards)
     }, [dispatch, id])
 
     const cards = useSelector<AppStateType, Array<CardType>>(state => state.cards.cards)
