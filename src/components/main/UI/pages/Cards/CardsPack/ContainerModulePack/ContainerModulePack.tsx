@@ -12,7 +12,7 @@ type PropsType = {
     dataIndex: number
 }
 
-export const ContainerModulePack:React.FC<PropsType> = ({dataItem, dataIndex}) => {
+export const ContainerModulePack: React.FC<PropsType> = ({dataItem, dataIndex}) => {
 
     const dispatch = useDispatch()
     const [showUpdateModule, setShowUpdateModule] = useState(false)
@@ -28,7 +28,7 @@ export const ContainerModulePack:React.FC<PropsType> = ({dataItem, dataIndex}) =
     }
 
     return <div key={dataIndex + dataItem._id}>
-        <div  className={styles.buttons}>
+        <div className={styles.buttons}>
             <Button
                 onClick={() => setShowDeleteModule(true)}
                 buttonClass={'deleteButton'}>
@@ -45,7 +45,7 @@ export const ContainerModulePack:React.FC<PropsType> = ({dataItem, dataIndex}) =
                     Show cards
                 </Button>
             </NavLink>
-            <NavLink to=''>
+            <NavLink to={`/learn-cards/${dataItem._id}`}>
                 <Button buttonClass={'regularButton'}>
                     Learn
                 </Button>
