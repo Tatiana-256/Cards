@@ -26,3 +26,12 @@
     align-items: center;
     justify-content: space-evenly;
 }
+
+.noCards{
+    height: 10vh;
+    margin-top: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}

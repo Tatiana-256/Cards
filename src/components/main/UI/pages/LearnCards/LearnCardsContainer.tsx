@@ -5,6 +5,7 @@ import {NavLink, useParams} from "react-router-dom";
 import {CardType, loadCardsData} from "../../../BLL/cardsRedusers/cards-reduser";
 import {AppStateType} from "../../../BLL/redux-store";
 import Button from "../../common/button/Button";
+import styles from './LearnCards.module.css';
 
 
 const getCard = (cards: Array<CardType>) => {
@@ -52,7 +53,7 @@ export const LearnCardsContainer = () => {
 
     return <>
         {card.answer === "answer" ?
-            <div>There is no any cards. Please add
+            <div className={styles.noCards}>There is no any cards. Please add
                 <NavLink to={`/cards/cards/${id}`}> <Button buttonClass={'regularButton'}>Add cards</Button></NavLink>
             </div>
             :
