@@ -13,8 +13,16 @@
     height: 200px;
 }
 
-.buttons{
+.buttons {
     display: flex;
     justify-content: space-evenly;
     width: 550px;
+}
+
+.answer {
+    display: flex;
+    flex-direction: column;
+    height: 300px;
+    align-items: center;
+    justify-content: space-evenly;
 }
