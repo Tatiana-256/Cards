@@ -14,11 +14,12 @@ type SetGradeResponseType = {
         shots: number;
     },
     token: string;
+    tokenDeathTime: number
 }
 
-const learnAPI = {
-    updateCardsGradeAPI(token: string, grade: number, card_id: string) {
-        instance.put<SetGradeResponseType>(`/cards/grade`,
+export const learnAPI = {
+    updateCardsGradeAPI(token: string | null, grade: number, card_id: string) {
+        return instance.put<SetGradeResponseType>(`/cards/grade`,
             {
                 token,
                 grade,
