@@ -7,6 +7,7 @@ import {forgotReducer} from "./forgot-reduser";
 import {newPasswordReducer} from "./newPassword-reduser";
 import {cardsPackReducer } from "./cardsRedusers/cardsPack-reduser";
 import { cardsReducer } from "./cardsRedusers/cards-reduser";
+import {learnReducer} from "./cardsRedusers/learnCard-reduser";
 
 
 let reducers = combineReducers({
@@ -15,7 +16,8 @@ let reducers = combineReducers({
     forgot: forgotReducer,
     newPass: newPasswordReducer,
     cardsPack: cardsPackReducer,
-    cards: cardsReducer
+    cards: cardsReducer,
+    learn: learnReducer
 })
 
 const store = createStore(reducers, applyMiddleware(thunkMiddleware));

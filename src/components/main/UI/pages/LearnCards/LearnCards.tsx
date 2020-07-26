@@ -6,18 +6,16 @@ import {CardType} from "../../../BLL/cardsRedusers/cards-reduser";
 
 
 type PropsType = {
-  card: CardType
+    card: CardType,
+    setGrade: (grade: number, card_id: string) => void
 
 }
 
-export const LearnCards: React.FC<PropsType> = ({card}) => {
+export const LearnCards: React.FC<PropsType> = ({card, setGrade}) => {
 
     const [isChecked, setIsChecked] = useState(false)
     const grades = ['don`t know', 'forgot', 'hard to remember', 'know', 'know well']
 
-    const onSelectedGrade = () => {
-        setIsChecked(false)
-    }
 
     return <div className={styles.container}>
         <div className={styles.module}>
@@ -32,11 +30,13 @@ export const LearnCards: React.FC<PropsType> = ({card}) => {
                             {card.answer}
                         </div>
                         <div className={styles.buttons}>
-                            {grades.map(g => {
+                            {grades.map((g, index) => {
                                 return <Button buttonClass={'smallButton'}
                                                style={{boxShadow: "3px 5px 5px rgba(0,0,0,0.4)"}}
                                                key={v1()}
                                                onClick={() => {
+                                                   setIsChecked(false)
+                                                   setGrade(index + 1, card._id)
                                                }}
                                 >
                                     {g}

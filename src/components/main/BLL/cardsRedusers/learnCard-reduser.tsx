@@ -1,7 +1,7 @@
 import {baseThunkType, InferActionsTypes} from "../redux-store";
 import {getCookie, setCookie} from "../common/cookies";
-import {cardsPackAPI} from "../../DAL/cards/cardsPackAPI";
 import {learnAPI} from "../../DAL/cards/learnCardsAPI";
+import {CardType} from "./cards-reduser";
 
 const initialState = {
     updateGradeSuccess: false,
@@ -38,6 +38,16 @@ export const learnReducer = (state: initialStateType = initialState, action: Lea
                 isLoading: action.value,
 
             }
+        case "cardsLearnReducer/UPDATE_GRADE_ERROR":
+            return {
+                ...state,
+                isError: action.isError
+            };
+        case "cardsLearnReducer/GET_CARD_TO_SHOW":
+            return {
+                ...state,
+                cardToShow: action.card
+            };
         default:
             return state;
     }
@@ -50,7 +60,9 @@ export const learnReducer = (state: initialStateType = initialState, action: Lea
 type LearnActionsTypes = InferActionsTypes<typeof actions>
 const actions = {
     isLoading: (value: boolean) => ({type: 'cardsLearnReducer/IS_LOADING', value} as const),
-    setGradeSuccess: (success: boolean) => ({type: "cardsLearnReducer/UPDATE_GRADE_SUCCESS", success} as const)
+    setGradeSuccess: (success: boolean) => ({type: "cardsLearnReducer/UPDATE_GRADE_SUCCESS", success} as const),
+    setGradeError: (isError: boolean) => ({type: "cardsLearnReducer/UPDATE_GRADE_ERROR", isError} as const),
+    getCardToShowSuccess: (card: CardType) => ({type: "cardsLearnReducer/GET_CARD_TO_SHOW", card} as const)
 
 }
 
