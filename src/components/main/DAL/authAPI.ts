@@ -1,11 +1,15 @@
 import axios from 'axios'
 
- export const instance = axios.create({
-    baseURL: "https://cards-nya-back.herokuapp.com/1.0/",
+export const dev = 'http://localhost:7542/1.0/'
+export const production = "https://cards-nya-back.herokuapp.com/1.0/"
+
+export const instance = axios.create({
+    baseURL: dev,
 })
 
 export const authAPI = {
     logIn(email: string, password: string, rememberMe: boolean) {
+        debugger
         return (
             instance.post<LoginResponseType>(`/auth/login`,
                 {

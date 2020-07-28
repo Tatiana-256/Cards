@@ -1,7 +1,8 @@
 import axios from 'axios'
+import {dev} from "../authAPI";
 
 const instance = axios.create({
-    baseURL: "https://cards-nya-back.herokuapp.com/1.0/",
+    baseURL: dev
 })
 
 type SetGradeResponseType = {

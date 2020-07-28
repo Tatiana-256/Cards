@@ -1,8 +1,9 @@
 import axios from 'axios'
 import {CardPackType} from "../../BLL/cardsRedusers/cardsPack-reduser";
+import {dev} from "../authAPI";
 
 const instance = axios.create({
-    baseURL: "https://cards-nya-back.herokuapp.com/1.0/",
+    baseURL:dev,
 })
 
 type GetApiType = {

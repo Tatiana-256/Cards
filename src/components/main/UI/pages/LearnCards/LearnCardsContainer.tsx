@@ -6,7 +6,7 @@ import {CardType, loadCardsData} from "../../../BLL/cardsRedusers/cards-reduser"
 import {AppStateType} from "../../../BLL/redux-store";
 import Button from "../../common/button/Button";
 import styles from './LearnCards.module.css';
-import {setCardGrade} from '../../../BLL/cardsRedusers/learnCard-reduser';
+import {setCardGrade, learnActions} from '../../../BLL/cardsRedusers/learnCard-reduser';
 
 
 const getCard = (cards: Array<CardType>) => {
@@ -25,20 +25,6 @@ export const LearnCardsContainer = () => {
     const {id} = useParams()
 
     const [first, setFirst] = useState<boolean>(false)
-    const [card, setCard] = useState<CardType>(
-        {
-            answer: "answer",
-            question: "question",
-            cardsPack_id: "cardsPack_id",
-            grade: 0,
-            rating: 0,
-            shots: 0,
-            type: 'type',
-            created: "created",
-            updated: "updated",
-            __v: 0,
-            _id: "_id"
-        })
 
     const dispatch = useDispatch()
     useEffect(() => {
@@ -46,22 +32,29 @@ export const LearnCardsContainer = () => {
             dispatch(loadCardsData(id))
             setFirst(false)
         }
-        if (cards.length > 0) getCard(cards)
+        if (cards.length > 0)
+        {
+            dispatch(learnActions.getCardToShowSuccess(getCard(cards)))
+
+        }
     }, [dispatch, id])
 
     const cards = useSelector<AppStateType, Array<CardType>>(state => state.cards.cards)
+    const cardToShow = useSelector((state: AppStateType) => state.learn.cardToShow);
 
 
     const setGrade = (grade: number, card_id: string) => {
         setCardGrade(grade, card_id)
+        dispatch(learnActions.getCardToShowSuccess(getCard(cards)))
+
     }
 
     return <>
-        {card.answer === "answer" ?
+        {cardToShow.answer === "answer" ?
             <div className={styles.noCards}>There is no any cards. Please add
                 <NavLink to={`/cards/cards/${id}`}> <Button buttonClass={'regularButton'}>Add cards</Button></NavLink>
             </div>
             :
-            <LearnCards card={card} setGrade={setGrade}/>
+            <LearnCards card={cardToShow} setGrade={setGrade}/>
         }</>
 }

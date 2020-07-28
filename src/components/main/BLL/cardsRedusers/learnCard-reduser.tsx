@@ -57,8 +57,8 @@ export const learnReducer = (state: initialStateType = initialState, action: Lea
 //__________________ actions __________________
 
 
-type LearnActionsTypes = InferActionsTypes<typeof actions>
-const actions = {
+type LearnActionsTypes = InferActionsTypes<typeof learnActions>
+export const learnActions = {
     isLoading: (value: boolean) => ({type: 'cardsLearnReducer/IS_LOADING', value} as const),
     setGradeSuccess: (success: boolean) => ({type: "cardsLearnReducer/UPDATE_GRADE_SUCCESS", success} as const),
     setGradeError: (isError: boolean) => ({type: "cardsLearnReducer/UPDATE_GRADE_ERROR", isError} as const),
@@ -73,12 +73,12 @@ type thunkType = baseThunkType<LearnActionsTypes>
 
 
 export const setCardGrade = (grade: number, card_id: string): thunkType => async (dispatch) => {
-    dispatch(actions.isLoading(true))
+    dispatch(learnActions.isLoading(true))
     try {
         const token: string | null = getCookie('token')
         const data = await learnAPI.updateCardsGradeAPI(token, grade, card_id)
         setCookie('token', data.token, Math.floor(data.tokenDeathTime / 1000) - 180);
-        dispatch(actions.setGradeSuccess(true))
+        dispatch(learnActions.setGradeSuccess(true))
     } catch (e) {
         console.error(e.response.data.error)
     }

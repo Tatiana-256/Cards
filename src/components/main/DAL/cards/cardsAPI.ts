@@ -1,5 +1,6 @@
 import axios from "axios";
 import {CardType} from "../../BLL/cardsRedusers/cards-reduser";
+import {dev} from "../authAPI";
 
 
 export type CardsResponseType = {
@@ -15,7 +16,7 @@ export type CardsResponseType = {
 
 
 const instance = axios.create({
-    baseURL: "https://cards-nya-back.herokuapp.com/1.0/",
+    baseURL: dev,
 })
 
 
