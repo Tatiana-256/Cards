@@ -13,6 +13,7 @@ const Header = () => {
             <>  <NavLink to="/" className={styles.rout}> Profile </NavLink>
                 <NavLink to="/cards/pack" className={styles.rout}> Cards </NavLink>
                 <NavLink to="/learn-cards" className={styles.rout}> Learn cards </NavLink>
+                <NavLink to="/loading-file" className={styles.rout}> Files </NavLink>
                 <div className={styles.rout}> LogOut</div>
             </>
             :

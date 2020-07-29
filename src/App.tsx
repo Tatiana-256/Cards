@@ -10,6 +10,7 @@ import RegistrationContainer from './components/main/UI/pages/Registration/Regis
 import CardsPack from "./components/main/UI/pages/Cards/CardsPack/CardsPack";
 import {Cards} from "./components/main/UI/pages/Cards/Cards/Cards";
 import {LearnCardsContainer} from './components/main/UI/pages/LearnCards/LearnCardsContainer';
+import { LoadingFiles } from './components/work-with-files/UI/imagine-video-file-editor/imagine-video-file-editor';
 
 
 const App = () => {
@@ -24,6 +25,7 @@ const App = () => {
             <Route path="/set-new-password/:id" component={NewPasswordContainer}/>
             <Route path="/learn-cards" component={LearnCardsContainer}/>
             <Route exact path="/" component={Profile}/>
+            <Route exact path="/loading-file" component={LoadingFiles}/>
         </div>
     );
 

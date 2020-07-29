@@ -5,9 +5,10 @@ import {loginReducer} from "./login-reduser";
 import {registerReducer} from "./register-reduser";
 import {forgotReducer} from "./forgot-reduser";
 import {newPasswordReducer} from "./newPassword-reduser";
-import {cardsPackReducer } from "./cardsRedusers/cardsPack-reduser";
-import { cardsReducer } from "./cardsRedusers/cards-reduser";
+import {cardsPackReducer} from "./cardsRedusers/cardsPack-reduser";
+import {cardsReducer} from "./cardsRedusers/cards-reduser";
 import {learnReducer} from "./cardsRedusers/learnCard-reduser";
+import {filesReducer} from "../../work-with-files/BLL/files-reducer";
 
 
 let reducers = combineReducers({
@@ -17,7 +18,8 @@ let reducers = combineReducers({
     newPass: newPasswordReducer,
     cardsPack: cardsPackReducer,
     cards: cardsReducer,
-    learn: learnReducer
+    learn: learnReducer,
+    files: filesReducer
 })
 
 const store = createStore(reducers, applyMiddleware(thunkMiddleware));
